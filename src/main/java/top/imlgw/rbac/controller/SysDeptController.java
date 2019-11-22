@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.Result;
 import top.imlgw.rbac.service.SysDeptService;
+import top.imlgw.rbac.service.SysTreeService;
+import top.imlgw.rbac.vo.DeptLevelDto;
 import top.imlgw.rbac.vo.DeptVo;
+
+import java.util.List;
 
 /**
  * @author imlgw.top
@@ -21,6 +25,17 @@ public class SysDeptController {
 
     @Autowired
     private SysDeptService sysDeptService;
+
+    @Autowired
+    private SysTreeService sysTreeService;
+
+    @RequestMapping("/tree")
+    @ResponseBody
+    public Result treeDept(){
+        List<DeptLevelDto> deptTree = sysTreeService.createDeptTree();
+        return Result.success(deptTree);
+    }
+
 
     @RequestMapping("/save")
     @ResponseBody

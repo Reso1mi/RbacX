@@ -1,8 +1,5 @@
 package top.imlgw.rbac.service;
 
-import org.apache.commons.lang3.StringUtils;
-import org.hamcrest.core.Is;
-import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.imlgw.rbac.dao.SysDeptMapper;
@@ -13,7 +10,6 @@ import top.imlgw.rbac.utils.LevelUtil;
 import top.imlgw.rbac.vo.DeptVo;
 
 import java.util.Date;
-import java.util.Optional;
 
 
 /**
@@ -43,8 +39,9 @@ public class SysDeptService {
         sysDeptMapper.insertSelective(sysDept);
     }
 
+    //todo
     private boolean checkExist(Integer parentId, String deptName, Integer deptId) {
-        return true;
+        return false;
     }
 
     /**
