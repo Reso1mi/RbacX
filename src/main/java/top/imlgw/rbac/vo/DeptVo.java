@@ -25,7 +25,7 @@ public class DeptVo {
 
     private  Integer parentId;
 
-    @NotNull(message = "展示顺序不可以为空")
+    @NotNull(message = "部门序列不可以为空！")
     private Integer seq;
 
     @Length(max = 150,message = "备注长度不要超过150字！")

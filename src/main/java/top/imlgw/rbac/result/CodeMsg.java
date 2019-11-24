@@ -15,7 +15,8 @@ public class CodeMsg {
     public static final CodeMsg BIND_ERROR = new CodeMsg(500101, "参数校验异常：%s");
 
     //部门相关异常
-    public static final CodeMsg DEPT_ID_REPEAT = new CodeMsg(500210, "同一层级下存在相同名称的部门");
+    public static final CodeMsg DEPT_REPEAT = new CodeMsg(500201, "同一层级下存在相同名称的部门");
+    public static final CodeMsg DEPT_NOT_EXIST = new CodeMsg(500202, "部门不存在");
 
 
     public static final CodeMsg PASSWORD_EMPTY = new CodeMsg(500211, "密码不能为空");

@@ -1,5 +1,6 @@
 package top.imlgw.rbac.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import top.imlgw.rbac.entity.SysDept;
 
@@ -20,4 +21,10 @@ public interface SysDeptMapper {
     int updateByPrimaryKey(SysDept record);
 
     List<SysDept> getAllDept();
+
+    List<SysDept> getChildDeptByLevel(@Param("level") String level);
+
+    void batchUpdateLevel(@Param("childrenDept") List<SysDept> childrenDept);
+
+    int countByNameAndParentId(@Param("name") String name,@Param("parentId") Integer parentId,@Param("id") Integer id);
 }

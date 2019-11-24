@@ -43,4 +43,11 @@ public class SysDeptController {
         sysDeptService.save(deptVo);
         return Result.success(CodeMsg.SUCCESS);
     }
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public Result updateDept(@Validated @RequestBody DeptVo deptVo){
+        sysDeptService.update(deptVo);
+        return Result.success(CodeMsg.SUCCESS);
+    }
 }

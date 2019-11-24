@@ -18,6 +18,7 @@ public class LevelUtil {
      * @return id = 1  parentId=0 level = 0
      *         id = 2  parentId=1 level = 0.1
      *         id = 3  parentId=2 level = 0.1.2
+     *         要理解level的含义
      */
     public static  String caculateLevel(String parentLevel,int parentId){
         if (StringUtils.isBlank(parentLevel)){

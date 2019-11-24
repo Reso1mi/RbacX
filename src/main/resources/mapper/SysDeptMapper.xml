@@ -143,4 +143,27 @@
         select <include refid="Base_Column_List"/>
         from sys_dept
     </select>
+
+    <select id="getChildDeptByLevel" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from sys_dept
+        where level like #{level} || '.%'  -- || is '+' , if level=1,  level like '0.1.%'
+    </select>
+
+    <update id="batchUpdateLevel" parameterMap="map">
+        <foreach collection="childrenDept" item="dept" separator=";">
+            update sys_dept
+            set level =#{dept.level}
+            where id=#{dept.id}
+        </foreach>
+    </update>
+    
+    <select id="countByNameAndParentId" >
+        select count(*)
+        from sys_dept
+        where name =#{name} and parent_id=#{parentId}
+        <if test="id!=null">
+          add id!=#{id} --更新的情况下忽略当前的部门,看有没有重复的
+        </if>
+    </select>
 </mapper>
