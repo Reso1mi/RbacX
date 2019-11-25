@@ -11,7 +11,6 @@ import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.utils.LevelUtil;
 import top.imlgw.rbac.vo.DeptVo;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -27,12 +26,14 @@ public class SysDeptService {
     private SysDeptMapper sysDeptMapper;
 
     public void save(DeptVo deptVo) {
-        if (checkExist(deptVo.getParentId(), deptVo.getName(), deptVo.getId())) {
+        if (checkExist(deptVo.getParentId(), deptVo.getName(),deptVo.getSeq(),deptVo.getId())) {
             throw new GlobalException(CodeMsg.DEPT_REPEAT);
         }
         SysDept sysDept =new SysDept(deptVo.getName(),deptVo.getParentId(),deptVo.getSeq(),deptVo.getRemark());
         //设置层级level类似 0.1.2.3这种
-        sysDept.setLevel(LevelUtil.caculateLevel(getParentLevel(deptVo.getParentId()),deptVo.getParentId()));
+        //11.25 fix a bug
+        //又改回来了,是自己想错了
+        sysDept.setLevel(LevelUtil.caculateLevel(getLevel(deptVo.getParentId()),deptVo.getParentId()));
         //todo
         sysDept.setOperator("system");
         //todo
@@ -43,15 +44,15 @@ public class SysDeptService {
         sysDeptMapper.insertSelective(sysDept);
     }
 
-    private boolean checkExist(Integer parentId, String deptName, Integer deptId) {
-        return sysDeptMapper.countByNameAndParentId(deptName,parentId,deptId)>0;
+    private boolean checkExist(Integer parentId, String deptName,Integer seq,Integer deptId) {
+        return sysDeptMapper.countByNameAndParentId(deptName,parentId,seq,deptId)>0;
     }
 
     /**
      * @param deptId 部门id
      * @return 获取db中当前部门的父部门的层级,没有就返回null
      */
-    private String getParentLevel(Integer deptId){
+    private String getLevel(Integer deptId){
         SysDept sysDept = sysDeptMapper.selectByPrimaryKey(deptId);
         if (sysDept==null){
             return null;
@@ -60,16 +61,23 @@ public class SysDeptService {
     }
 
     public void update(DeptVo deptVo) {
-        if (checkExist(deptVo.getParentId(), deptVo.getName(), deptVo.getId())) {
+        if (checkExist(deptVo.getParentId(), deptVo.getName(),deptVo.getSeq(),deptVo.getId())) {
             throw new GlobalException(CodeMsg.DEPT_REPEAT);
         }
         SysDept oldSysDept = sysDeptMapper.selectByPrimaryKey(deptVo.getId());
         if (oldSysDept==null){
             throw new GlobalException(CodeMsg.DEPT_NOT_EXIST);
         }
-        SysDept newSysDept =new SysDept(deptVo.getName(),deptVo.getParentId(),deptVo.getSeq(),deptVo.getRemark());
-        //设置层级level类似 0.1.2.3这种
-        newSysDept.setLevel(LevelUtil.caculateLevel(getParentLevel(deptVo.getParentId()),deptVo.getParentId()));
+        SysDept newSysDept =new SysDept(
+                deptVo.getId(),
+                deptVo.getName(),
+                deptVo.getParentId(),
+                deptVo.getSeq(),
+                deptVo.getRemark()
+        );
+        //设置层级level类似 0.1.2.3. 这种
+        //0.1.2. --> 0.3.4.
+        newSysDept.setLevel(LevelUtil.caculateLevel(getLevel(deptVo.getParentId()),deptVo.getParentId()));
         //todo
         newSysDept.setOperator("system");
         //todo
@@ -81,23 +89,25 @@ public class SysDeptService {
 
     @Transactional
     public void updateWithChild(SysDept oldSysDept,SysDept newSysDept){
-        //子部门的level前缀
-        String newLevelPrefix = newSysDept.getLevel();
-        String oldLevelPrefix = oldSysDept.getLevel();
+        //子部门的level前缀,需要加上当前部门的id,这也是原项目中的bug
+        String newLevelPrefix = newSysDept.getLevel()+oldSysDept.getId();
+        String oldLevelPrefix = oldSysDept.getLevel()+oldSysDept.getId();
         if (!newLevelPrefix.equals(oldLevelPrefix)){
-            //待更新部门的所有子部门
-            List<SysDept> childDept= sysDeptMapper.getChildDeptByLevel(oldLevelPrefix);
+            //根据当前的 level+id+.% 查询待更新部门的所有子部门
+            //这一块要捋清楚最好画部门树的图
+            List<SysDept> childDept= sysDeptMapper.getChildDeptByLevel(oldLevelPrefix+".%");
+            System.out.println("old: "+oldLevelPrefix+" , new: "+newLevelPrefix);
+            System.out.println(childDept);
             if (!CollectionUtils.isEmpty(childDept)){
                 for (SysDept sysDept : childDept) {
                     //子部门后缀
                     String levelSuffix = sysDept.getLevel().substring(oldLevelPrefix.length());
                     sysDept.setLevel(newLevelPrefix+levelSuffix);
                 }
+                //更新所有子部门的level
+                childDept.forEach(sysDeptMapper::updateByPrimaryKey);
             }
-            //批量更新子部门的level
-            sysDeptMapper.batchUpdateLevel(childDept);
         }
-
         sysDeptMapper.updateByPrimaryKey(newSysDept);
     }
 }

@@ -20,10 +20,11 @@ public class DeptVo {
     private  Integer id;
 
     @NotBlank(message = "部门名称不能为空！")
-    @Length(max = 5,min = 2,message ="部门名称需要在2~15之间！")
+    @Length(max = 15,min = 2,message ="部门名称需要在2~15之间！")
     private String name;
 
-    private  Integer parentId;
+    //给一个默认值,避免空指针
+    private  Integer parentId=0;
 
     @NotNull(message = "部门序列不可以为空！")
     private Integer seq;

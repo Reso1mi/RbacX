@@ -1,8 +1,11 @@
 package top.imlgw.rbac.entity;
 
 
+import lombok.ToString;
+
 import java.util.Date;
 
+@ToString
 public class SysDept {
     private Integer id;
 
@@ -26,6 +29,14 @@ public class SysDept {
     }
 
     public SysDept(String name, Integer parentId, Integer seq, String remark) {
+        this.name = name;
+        this.parentId = parentId;
+        this.seq = seq;
+        this.remark = remark;
+    }
+
+    public SysDept(Integer id, String name, Integer parentId, Integer seq, String remark) {
+        this.id = id;
         this.name = name;
         this.parentId = parentId;
         this.seq = seq;
