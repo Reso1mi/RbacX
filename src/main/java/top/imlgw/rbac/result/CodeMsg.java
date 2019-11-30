@@ -10,14 +10,18 @@ public class CodeMsg {
 
     //通用
     public static final CodeMsg SUCCESS = new CodeMsg(0, "success");
-    public static final CodeMsg REGISTER_SUCCESS = new CodeMsg(1, "注册成功!!");
     public static final CodeMsg SERVER_ERROR = new CodeMsg(-1, "server error !");
+
+    public static final CodeMsg REGISTER_SUCCESS = new CodeMsg(1, "注册成功!!");
     public static final CodeMsg BIND_ERROR = new CodeMsg(500101, "参数校验异常：%s");
 
-    //部门相关异常
+    //部门相关msg
     public static final CodeMsg DEPT_REPEAT = new CodeMsg(500201, "同一层级下存在相同名称的部门");
     public static final CodeMsg DEPT_NOT_EXIST = new CodeMsg(500202, "部门不存在");
 
+    //用户相关msg
+    public static final CodeMsg MAIL_REPEAT = new CodeMsg(500202, "邮箱已经被注册！");
+    public static final CodeMsg PHONE_REPEAT = new CodeMsg(500202, "手机号已经被注册！");
 
     public static final CodeMsg PASSWORD_EMPTY = new CodeMsg(500211, "密码不能为空");
     public static final CodeMsg MOBILE_EMPTY = new CodeMsg(500212, "号码不能为空");

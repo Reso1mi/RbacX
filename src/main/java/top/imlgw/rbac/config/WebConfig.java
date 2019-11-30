@@ -3,6 +3,7 @@ package top.imlgw.rbac.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import top.imlgw.rbac.interceptor.HttpInterceptor;
@@ -25,10 +26,11 @@ public class WebConfig implements WebMvcConfigurer {
         /*registry.addViewController("/").setViewName("login");
         registry.addViewController("/goodslist").setViewName("goods_list");
         registry.addViewController("/register").setViewName("register");*/
+        registry.addViewController("/dept").setViewName("dept");
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(httpInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(httpInterceptor).addPathPatterns("/**").excludePathPatterns("/login/*");
     }
 }

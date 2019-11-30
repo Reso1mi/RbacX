@@ -1,7 +1,9 @@
 package top.imlgw.rbac.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import top.imlgw.rbac.dao.SysAclModuleMapper;
 import top.imlgw.rbac.entity.SysAclModule;
@@ -13,8 +15,8 @@ import top.imlgw.rbac.utils.SpringContextUtil;
  * @date 2019/11/21 15:13
  */
 @RequestMapping("test")
-@RestController
 @Slf4j
+@Controller
 public class TestController {
 
     @RequestMapping("hello")

@@ -1,14 +1,27 @@
 server:
-  port: 80
+  port: 8080
+  servlet:
+    context-path: /
 spring:
   mvc:
+    view:
+      suffix: .html
     servlet:
       load-on-startup: 1
+
   datasource:
     url: jdbc:mysql://localhost:3306/rbac?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT
     username: root
     password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver
+  resources:
+    static-locations: classpath:/static/
+    add-mappings: true
+    chain:
+      cache: true
+      enabled: true
+      compressed: true
+      html-application-cache: true
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: top.imlgw.demo.pojo

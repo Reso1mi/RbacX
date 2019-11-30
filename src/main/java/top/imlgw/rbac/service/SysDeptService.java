@@ -26,7 +26,7 @@ public class SysDeptService {
     private SysDeptMapper sysDeptMapper;
 
     public void save(DeptVo deptVo) {
-        if (checkExist(deptVo.getParentId(), deptVo.getName(),deptVo.getSeq(),deptVo.getId())) {
+        if (isExist(deptVo.getParentId(), deptVo.getName(),deptVo.getSeq(),deptVo.getId())) {
             throw new GlobalException(CodeMsg.DEPT_REPEAT);
         }
         SysDept sysDept =new SysDept(deptVo.getName(),deptVo.getParentId(),deptVo.getSeq(),deptVo.getRemark());
@@ -44,7 +44,7 @@ public class SysDeptService {
         sysDeptMapper.insertSelective(sysDept);
     }
 
-    private boolean checkExist(Integer parentId, String deptName,Integer seq,Integer deptId) {
+    private boolean isExist(Integer parentId, String deptName,Integer seq,Integer deptId) {
         return sysDeptMapper.countByNameAndParentId(deptName,parentId,seq,deptId)>0;
     }
 
@@ -61,7 +61,7 @@ public class SysDeptService {
     }
 
     public void update(DeptVo deptVo) {
-        if (checkExist(deptVo.getParentId(), deptVo.getName(),deptVo.getSeq(),deptVo.getId())) {
+        if (isExist(deptVo.getParentId(), deptVo.getName(),deptVo.getSeq(),deptVo.getId())) {
             throw new GlobalException(CodeMsg.DEPT_REPEAT);
         }
         SysDept oldSysDept = sysDeptMapper.selectByPrimaryKey(deptVo.getId());
@@ -109,5 +109,15 @@ public class SysDeptService {
             }
         }
         sysDeptMapper.updateByPrimaryKey(newSysDept);
+    }
+
+    //todo
+    public void delete(Integer deptVo) {
+
+    }
+
+    //todo
+    private  void deleteChild(List<DeptVo> deptList){
+
     }
 }

@@ -7,7 +7,7 @@ import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.Result;
 import top.imlgw.rbac.service.SysDeptService;
 import top.imlgw.rbac.service.SysTreeService;
-import top.imlgw.rbac.vo.DeptLevelDto;
+import top.imlgw.rbac.vo.DeptLevelVo;
 import top.imlgw.rbac.vo.DeptVo;
 
 import java.util.List;
@@ -27,22 +27,28 @@ public class SysDeptController {
     private SysTreeService sysTreeService;
 
     @RequestMapping("/tree")
-    @ResponseBody
     public Result treeDept(){
-        List<DeptLevelDto> deptTree = sysTreeService.createDeptTree();
+        List<DeptLevelVo> deptTree = sysTreeService.createDeptTree();
         return Result.success(deptTree);
     }
 
 
     @PostMapping("/save")
-    @ResponseBody
     public Result saveDept(@Validated @RequestBody DeptVo deptVo){
         sysDeptService.save(deptVo);
         return Result.success(CodeMsg.SUCCESS);
     }
 
+
+    //todo
+    @PostMapping("/delete")
+    public Result deleteDept(Integer id){
+        //todo 删除和用户模块相关,等用户模块开发完成再实现
+        sysDeptService.delete(id);
+        return Result.success(CodeMsg.SUCCESS);
+    }
+
     @PostMapping("/update")
-    @ResponseBody
     public Result updateDept(@Validated @RequestBody DeptVo deptVo){
         sysDeptService.update(deptVo);
         System.out.println(deptVo);

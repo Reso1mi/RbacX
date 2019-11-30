@@ -16,15 +16,15 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class DeptLevelDto extends SysDept {
+public class DeptLevelVo extends SysDept {
 
     //添加一个List属性,形成部门树的结构
-    private List<DeptLevelDto> deptList= new ArrayList<>();
+    private List<DeptLevelVo> deptList= new ArrayList<>();
 
-    public static DeptLevelDto adapt(SysDept sysDept){
-        DeptLevelDto deptLevelDto=new DeptLevelDto();
+    public static DeptLevelVo adapt(SysDept sysDept){
+        DeptLevelVo deptLevelVo =new DeptLevelVo();
         //copybean的工具,还挺好用
-        BeanUtils.copyProperties(sysDept,deptLevelDto);
-        return  deptLevelDto;
+        BeanUtils.copyProperties(sysDept, deptLevelVo);
+        return deptLevelVo;
     }
 }
