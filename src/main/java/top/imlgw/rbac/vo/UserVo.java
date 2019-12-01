@@ -8,6 +8,7 @@ import top.imlgw.rbac.validator.IsMail;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author imlgw.top
@@ -30,12 +31,12 @@ public class UserVo {
     @IsMail
     private String mail;
 
-    @NotBlank(message = "用户部门不可以为空！")
+    @NotNull(message = "用户部门不可以为空！")
     private Integer deptId;
 
-    @NotBlank(message = "用户状态不可以为空")
     @Min(value = 0,message = "用户状态不合法！")
     @Max(value = 2,message = "用户状态不合法")
+    @NotNull(message = "用户状态不可以为空")
     private Integer status;
 
     @NotBlank(message = "备注不可以为空")

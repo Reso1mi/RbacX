@@ -293,7 +293,7 @@
                             id: deptId
                         }),
                         success: function (result) {
-                            if (result.ret) {
+                            if (result.code==0) {
                                 showMessage("删除部门[" + deptName + "]", "操作成功", true);
                                 loadDeptTree();
                             } else {

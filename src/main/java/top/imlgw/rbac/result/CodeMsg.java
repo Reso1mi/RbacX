@@ -20,8 +20,9 @@ public class CodeMsg {
     public static final CodeMsg DEPT_NOT_EXIST = new CodeMsg(500202, "部门不存在");
 
     //用户相关msg
-    public static final CodeMsg MAIL_REPEAT = new CodeMsg(500202, "邮箱已经被注册！");
-    public static final CodeMsg PHONE_REPEAT = new CodeMsg(500202, "手机号已经被注册！");
+    public static final CodeMsg USER_NOT_EXIST = new CodeMsg(500301,"用户不存在");
+    public static final CodeMsg MAIL_REPEAT = new CodeMsg(500302, "邮箱已经被注册！");
+    public static final CodeMsg PHONE_REPEAT = new CodeMsg(500303, "手机号已经被注册！");
 
     public static final CodeMsg PASSWORD_EMPTY = new CodeMsg(500211, "密码不能为空");
     public static final CodeMsg MOBILE_EMPTY = new CodeMsg(500212, "号码不能为空");

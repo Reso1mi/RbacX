@@ -10,11 +10,11 @@ import javax.validation.ConstraintValidatorContext;
  * @author imlgw.top
  * @date 2019/11/30 23:36
  */
-public class IsMailValidator implements ConstraintValidator<IsMobile, String> {
+public class IsMailValidator implements ConstraintValidator<IsMail, String> {
     private boolean required=false;
 
     @Override
-    public void initialize(IsMobile constraintAnnotation) {
+    public void initialize(IsMail constraintAnnotation) {
         required=constraintAnnotation.required();
     }
 

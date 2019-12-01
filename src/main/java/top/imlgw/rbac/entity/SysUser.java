@@ -25,6 +25,30 @@ public class SysUser {
 
     private String operateIp;
 
+    public SysUser() {
+
+    }
+
+    public SysUser(String username, String telephone, String mail, String password, Integer deptId, Integer status, String remark) {
+        this.username = username;
+        this.telephone = telephone;
+        this.mail = mail;
+        this.password = password;
+        this.deptId = deptId;
+        this.status = status;
+        this.remark = remark;
+    }
+
+    public SysUser(Integer id, String username, String telephone, String mail, Integer deptId, Integer status, String remark) {
+        this.id = id;
+        this.username = username;
+        this.telephone = telephone;
+        this.mail = mail;
+        this.deptId = deptId;
+        this.status = status;
+        this.remark = remark;
+    }
+
     public Integer getId() {
         return id;
     }
