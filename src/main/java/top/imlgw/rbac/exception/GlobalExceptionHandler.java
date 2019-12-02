@@ -28,7 +28,6 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class) //处理GlobalException异常
     public Result<String> globalExceptionHandle(Exception e) {
-        e.printStackTrace();
         if (e instanceof GlobalException) {
             //全局异常
             GlobalException ex = (GlobalException) e;

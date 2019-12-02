@@ -2,11 +2,14 @@ package top.imlgw.rbac.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import top.imlgw.rbac.interceptor.HttpInterceptor;
+import top.imlgw.rbac.interceptor.LoginIntercept;
+
+import java.util.List;
 
 
 /**
@@ -17,7 +20,13 @@ import top.imlgw.rbac.interceptor.HttpInterceptor;
 public class WebConfig implements WebMvcConfigurer {
 
     @Autowired
-    HttpInterceptor httpInterceptor;
+    private HttpInterceptor httpInterceptor;
+
+    @Autowired
+    private LoginIntercept loginIntercept;
+
+    @Autowired
+    private SysUserArgumentResolver sysUserArgumentResolver;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -26,12 +35,17 @@ public class WebConfig implements WebMvcConfigurer {
         /*registry.addViewController("/").setViewName("login");
         registry.addViewController("/goodslist").setViewName("goods_list");
         registry.addViewController("/register").setViewName("register");*/
-        registry.addViewController("/dept").setViewName("dept");
-        registry.addViewController("/").setViewName("signin");
+        registry.addViewController("/login").setViewName("signin");
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(httpInterceptor).addPathPatterns("/**").excludePathPatterns("/login/*");
+        registry.addInterceptor(loginIntercept);
+    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(sysUserArgumentResolver); //User参数解析器
     }
 }

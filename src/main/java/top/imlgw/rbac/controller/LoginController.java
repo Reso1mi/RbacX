@@ -11,21 +11,24 @@ import top.imlgw.rbac.result.Result;
 import top.imlgw.rbac.service.SysUserService;
 import top.imlgw.rbac.vo.LoginVo;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @author imlgw.top
  * @date 2019/12/1 23:02
  */
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class LoginController {
 
     @Autowired
     private SysUserService sysUserService;
 
     @PostMapping("/login")
-    public Result login(@Validated LoginVo loginVo){
+    public Result login(@Validated @RequestBody LoginVo loginVo, HttpServletRequest request, HttpServletResponse response){
         System.err.println(loginVo);
-        sysUserService.doLogin(loginVo);
+        sysUserService.doLogin(loginVo,request,response);
         return Result.success(CodeMsg.SUCCESS);
     }
 

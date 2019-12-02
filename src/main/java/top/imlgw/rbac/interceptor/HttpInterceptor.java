@@ -2,6 +2,7 @@ package top.imlgw.rbac.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -16,7 +17,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class HttpInterceptor extends HandlerInterceptorAdapter {
+public class HttpInterceptor implements HandlerInterceptor {
 
     /**
      *

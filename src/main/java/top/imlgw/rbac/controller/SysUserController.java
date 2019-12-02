@@ -1,16 +1,17 @@
 package top.imlgw.rbac.controller;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import top.imlgw.rbac.entity.SysUser;
 import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.Result;
 import top.imlgw.rbac.service.SysUserService;
+import top.imlgw.rbac.validator.NeedLogin;
 import top.imlgw.rbac.vo.UserVo;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
 /**
@@ -25,15 +26,27 @@ public class SysUserController {
     private SysUserService sysUserService;
 
     @PostMapping("/save")
-    public Result saveDept(@Validated @RequestBody UserVo userVo){
+    @NeedLogin
+    public Result saveUser(@Validated @RequestBody UserVo userVo){
         sysUserService.save(userVo);
         return Result.success(CodeMsg.SUCCESS);
     }
 
 
     @PostMapping("/update")
-    public Result updateDept(@Validated @RequestBody UserVo userVo){
+    @NeedLogin
+    public Result updateUser(@Validated @RequestBody UserVo userVo){
         sysUserService.update(userVo);
         return Result.success(CodeMsg.SUCCESS);
     }
+
+
+    @RequestMapping("/list/{deptId}")
+    @NeedLogin
+    public Result updateDept(@NotNull(message = "部门id不能为空！") @PathVariable(name = "deptId") Integer deptId){
+        List<SysUser> usersByDept = sysUserService.getUsersByDept(deptId);
+        System.out.println(usersByDept);
+        return Result.success(usersByDept);
+    }
+
 }
