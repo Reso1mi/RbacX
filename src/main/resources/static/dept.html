@@ -376,7 +376,7 @@
             if (result.code==0) {
                 if (result.data.total > 0){
                     var rendered = Mustache.render(userListTemplate, {
-                        userList: result.data,
+                        userList: result.data.data,
                         "showDeptName": function() {
                             return deptMap[this.deptId].name;
                         },
@@ -398,7 +398,7 @@
                     });
                     $("#userList").html(rendered);
                     bindUserClick();
-                    $.each(result.data, function(i, user) {
+                    $.each(result.data.data, function(i, user) {
                         userMap[user.id] = user;
                     })
                 } else {
@@ -473,6 +473,7 @@
                         $("#deptSelectId").html(optionStr);
 
                         var targetUser = userMap[userId];
+                        console.log(userMap);
                         if (targetUser) {
                             $("#deptSelectId").val(targetUser.deptId);
                             $("#userName").val(targetUser.username);
@@ -550,11 +551,12 @@
 
         function updateUser(isCreate, successCallback, failCallback) {
             $.ajax({
-                url: isCreate ? "/sys/user/save.json" : "/sys/user/update.json",
-                data: $("#userForm").serializeArray(),
+                url: isCreate ? "/system/user/save" : "/system/user/update",
+                data: JSON.stringify(getFormData($("#userForm"))),
                 type: 'POST',
+                contentType: "application/json",
                 success: function(result) {
-                    if (result.ret) {
+                    if (result.code==0) {
                         loadDeptTree();
                         if (successCallback) {
                             successCallback(result);

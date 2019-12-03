@@ -19,9 +19,9 @@
     <![endif]-->
     <link rel="stylesheet" href="/assets/css/ace-skins.min.css"/>
     <link rel="stylesheet" href="/assets/css/ace-rtl.min.css"/>
-    <link rel="stylesheet" href="/assets/css/jquery.gritter.css" />
-    <link rel="stylesheet" href="/assets/css/jquery-ui.min.css" />
-    <link rel="stylesheet" href="/assets/css/chosen.css" />
+    <link rel="stylesheet" href="/assets/css/jquery.gritter.css"/>
+    <link rel="stylesheet" href="/assets/css/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="/assets/css/chosen.css"/>
     <!--[if lte IE 9]>
     <link rel="stylesheet" href="/assets/css/ace-ie.min.css"/>
     <![endif]-->
@@ -68,6 +68,9 @@
                             <small>欢迎,</small>
                             Admin
                         </span>
+                        <a onclick="doLogout()"> <i class="ace-icon fa fa-power-off"></i>
+                            注销
+                        </a>
                         <i class="ace-icon fa fa-caret-down"></i>
                     </a>
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
@@ -84,9 +87,7 @@
 
                         <li class="divider"></li>
                         <li>
-                            <a href="/logout.page"> <i class="ace-icon fa fa-power-off"></i>
-                                注销
-                            </a>
+
                         </li>
                     </ul>
                 </li>
@@ -255,6 +256,17 @@
 <script src="/assets/js/ace.min.js"></script>
 
 <script>
+    function doLogout() {
+        $.ajax({
+            url: "/user/logout",
+            success: function (data) {
+                if (data.code == 0) {
+                    alert("注销成功")
+                    window.location.href = "/login";
+                }
+            }
+        });
+    }
 
     $(document).ready(function () {
         $(".popstyle").removeAttr("target");
@@ -268,20 +280,36 @@
         $(".popstyle").click(function () {
             var $this = $(this)
             $("iframe").attr(
-                    'src',
-                    $this.attr("data")
+                'src',
+                $this.attr("data")
             );
         });
 
         $(".direct").click(function () {
             var $this = $(this)
             $("iframe").attr(
-                    'src',
-                    $this.attr("data-value")
+                'src',
+                $this.attr("data-value")
             );
         });
     });
+
+    // 展示提示信息
+    function showMessage(title, msg, isSuccess) {
+        if (!isSuccess) {
+            msg = msg || '';
+        } else {
+            msg = msg || '操作成功'
+        }
+        $.gritter.add({
+            title: title,
+            text: msg != '' ? msg : "服务器处理异常, 建议刷新页面来保证数据是最新的",
+            time: '',
+            class_name: (isSuccess ? 'gritter-success' : 'gritter-warning') + (!$('#gritter-light').get(0).checked ? ' gritter-light' : '')
+        });
+    }
 </script>
+
 </body>
 </html>
 

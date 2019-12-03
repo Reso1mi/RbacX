@@ -2,13 +2,11 @@ package top.imlgw.rbac.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.Result;
 import top.imlgw.rbac.service.SysUserService;
+import top.imlgw.rbac.validator.NeedLogin;
 import top.imlgw.rbac.vo.LoginVo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,5 +30,12 @@ public class LoginController {
         return Result.success(CodeMsg.SUCCESS);
     }
 
+
+    @GetMapping("/logout")
+    @NeedLogin
+    public Result logout(HttpServletRequest request) {
+        sysUserService.doLogout(request);
+        return Result.success(CodeMsg.SUCCESS);
+    }
 
 }

@@ -5,13 +5,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.imlgw.rbac.entity.SysUser;
 import top.imlgw.rbac.result.CodeMsg;
+import top.imlgw.rbac.result.PageResult;
 import top.imlgw.rbac.result.Result;
 import top.imlgw.rbac.service.SysUserService;
 import top.imlgw.rbac.validator.NeedLogin;
+import top.imlgw.rbac.vo.PageQueryVo;
 import top.imlgw.rbac.vo.UserVo;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 
 /**
@@ -41,11 +42,10 @@ public class SysUserController {
     }
 
 
-    @RequestMapping("/list/{deptId}")
+    @GetMapping("/list/{deptId}")
     @NeedLogin
-    public Result updateDept(@NotNull(message = "部门id不能为空！") @PathVariable(name = "deptId") Integer deptId){
-        List<SysUser> usersByDept = sysUserService.getUsersByDept(deptId);
-        System.out.println(usersByDept);
+    public Result updateDept(@NotNull(message = "部门id不能为空！") @PathVariable(name = "deptId") Integer deptId, PageQueryVo pageQueryVo){
+        PageResult<SysUser> usersByDept = sysUserService.getUsersByDept(deptId, pageQueryVo);
         return Result.success(usersByDept);
     }
 

@@ -6,12 +6,14 @@ import top.imlgw.rbac.dao.SysUserMapper;
 import top.imlgw.rbac.entity.SysUser;
 import top.imlgw.rbac.exception.GlobalException;
 import top.imlgw.rbac.result.CodeMsg;
+import top.imlgw.rbac.result.PageResult;
+import top.imlgw.rbac.utils.CookieUtil;
 import top.imlgw.rbac.utils.PasswordUtil;
 import top.imlgw.rbac.utils.UUIDUtil;
 import top.imlgw.rbac.vo.LoginVo;
+import top.imlgw.rbac.vo.PageQueryVo;
 import top.imlgw.rbac.vo.UserVo;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -24,7 +26,6 @@ import java.util.List;
 @Service
 public class SysUserService {
 
-    public static final String TOKEN_NAME="rbacx";
 
     @Autowired
     private SysUserMapper sysUserMapper;
@@ -107,14 +108,20 @@ public class SysUserService {
         //扩展的话就只需要将这个存到Redis等中间件中就行了
         request.getSession().setAttribute(token,user);
         //添加token到cookie中
-        addCookies(response,token);
+        CookieUtil.addCookies(response,CookieUtil.USER_TOKEN_NAME,token);
     }
 
 
-    public List<SysUser> getUsersByDept(Integer deptId){
-        return sysUserMapper.selectByDeptId(deptId);
+    public PageResult<SysUser> getUsersByDept(Integer deptId, PageQueryVo pageQueryVo){
+        PageResult<SysUser> result = new PageResult<>();
+        int count = sysUserMapper.countByDeptId(deptId);
+        if (count>=0){
+            List<SysUser> sysUsers = sysUserMapper.selectByDeptId(deptId, pageQueryVo);
+            result.setTotal(count);
+            result.setData(sysUsers);
+        }
+        return result;
     }
-
 
 
     /*
@@ -133,16 +140,23 @@ public class SysUserService {
         return user;
     }*/
 
-    private void addCookies(HttpServletResponse response,String token) {
-        Cookie cookie = new Cookie(TOKEN_NAME, token);
-        //设置Cookie过期时间 12h
-        cookie.setMaxAge(3600*12);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        response.addCookie(cookie);
-    }
 
     private SysUser findUserByMailOrPhone(String keyword){
         return sysUserMapper.findUserByMailOrPhone(keyword);
+    }
+
+
+    /**
+     * 登出
+     * @param request
+     */
+    public void doLogout(HttpServletRequest request){
+        try {
+            String token = CookieUtil.getCookieValue(request, CookieUtil.USER_TOKEN_NAME);
+            request.getSession().removeAttribute(token);
+            CookieUtil.removeCookie(request,CookieUtil.USER_TOKEN_NAME);
+        }catch (Exception e){
+            throw new GlobalException(CodeMsg.SERVER_ERROR);
+        }
     }
 }

@@ -5,11 +5,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import top.imlgw.rbac.entity.SysUser;
-import top.imlgw.rbac.service.SysUserService;
+import top.imlgw.rbac.utils.CookieUtil;
 import top.imlgw.rbac.utils.UserContext;
 import top.imlgw.rbac.validator.NeedLogin;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -70,9 +69,9 @@ public class LoginIntercept implements HandlerInterceptor {
      */
     private SysUser getSysUser(HttpServletRequest request, HttpServletResponse response){
         //拿参数中的token
-        String paramToken = request.getParameter(SysUserService.TOKEN_NAME);
+        String paramToken = request.getParameter(CookieUtil.USER_TOKEN_NAME);
         //拿cookie中的token
-        String cookieToken = getCookieValue(request, SysUserService.TOKEN_NAME);
+        String cookieToken = CookieUtil.getCookieValue(request, CookieUtil.USER_TOKEN_NAME);
         if(StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
             //没登陆cookie为空
             return null;
@@ -80,22 +79,5 @@ public class LoginIntercept implements HandlerInterceptor {
         String token = StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
         SysUser sysUser= (SysUser) request.getSession().getAttribute(token);
         return sysUser;
-    }
-
-
-    /*
-     * 获取cookie中的User
-     * */
-    private String getCookieValue(HttpServletRequest request, String cookieName) {
-        Cookie[]  cookies = request.getCookies();
-        if(cookies == null || cookies.length <= 0){
-            return null;
-        }
-        for(Cookie cookie : cookies) {
-            if(cookie.getName().equals(cookieName)) {
-                return cookie.getValue();
-            }
-        }
-        return null;
     }
 }
