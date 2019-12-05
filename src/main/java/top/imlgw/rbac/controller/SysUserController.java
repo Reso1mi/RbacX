@@ -9,7 +9,7 @@ import top.imlgw.rbac.result.PageResult;
 import top.imlgw.rbac.result.Result;
 import top.imlgw.rbac.service.SysUserService;
 import top.imlgw.rbac.validator.NeedLogin;
-import top.imlgw.rbac.vo.PageQueryVo;
+import top.imlgw.rbac.bean.PageQuery;
 import top.imlgw.rbac.vo.UserVo;
 
 import javax.validation.constraints.NotNull;
@@ -44,8 +44,8 @@ public class SysUserController {
 
     @GetMapping("/list/{deptId}")
     @NeedLogin
-    public Result updateDept(@NotNull(message = "部门id不能为空！") @PathVariable(name = "deptId") Integer deptId, PageQueryVo pageQueryVo){
-        PageResult<SysUser> usersByDept = sysUserService.getUsersByDept(deptId, pageQueryVo);
+    public Result updateDept(@NotNull(message = "部门id不能为空！") @PathVariable(name = "deptId") Integer deptId, PageQuery pageQuery){
+        PageResult<SysUser> usersByDept = sysUserService.getUsersByDept(deptId, pageQuery);
         return Result.success(usersByDept);
     }
 

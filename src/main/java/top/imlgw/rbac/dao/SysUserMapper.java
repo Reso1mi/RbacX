@@ -2,9 +2,8 @@ package top.imlgw.rbac.dao;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
 import top.imlgw.rbac.entity.SysUser;
-import top.imlgw.rbac.vo.PageQueryVo;
+import top.imlgw.rbac.bean.PageQuery;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public interface SysUserMapper {
 
     SysUser selectByPrimaryKey(Integer id);
 
-    List<SysUser> selectByDeptId(@Param("deptId") Integer id,@Param("page") PageQueryVo page);
+    List<SysUser> selectByDeptId(@Param("deptId") Integer id,@Param("page") PageQuery page);
 
     int countByDeptId(@Param("deptId") Integer deptId);
 

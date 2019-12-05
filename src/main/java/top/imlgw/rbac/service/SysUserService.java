@@ -7,11 +7,9 @@ import top.imlgw.rbac.entity.SysUser;
 import top.imlgw.rbac.exception.GlobalException;
 import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.PageResult;
-import top.imlgw.rbac.utils.CookieUtil;
-import top.imlgw.rbac.utils.PasswordUtil;
-import top.imlgw.rbac.utils.UUIDUtil;
+import top.imlgw.rbac.utils.*;
 import top.imlgw.rbac.vo.LoginVo;
-import top.imlgw.rbac.vo.PageQueryVo;
+import top.imlgw.rbac.bean.PageQuery;
 import top.imlgw.rbac.vo.UserVo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,12 +41,16 @@ public class SysUserService {
         }
         //TODO
         String password=PasswordUtil.encode("123456");
+        //TODO
+        //MailUtil.send();
         SysUser sysUser = new SysUser(userVo.getUsername(),
                 userVo.getTelephone(), userVo.getMail(),
                 password, userVo.getDeptId(),
                 userVo.getStatus(), userVo.getRemark());
-        sysUser.setOperator("system");
-        sysUser.setOperateIp("127.0.0.1");
+        //直接从User上下文中取
+        sysUser.setOperator(RequestContext.getCurrentSysUser().getUsername());
+        //IpUtil解析http请求中的ip地址
+        sysUser.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
         sysUser.setOperateTime(new Date());
         //TODO: sendEmail
         sysUserMapper.insertSelective(sysUser);
@@ -71,6 +73,9 @@ public class SysUserService {
         }
         //update
         SysUser newSysUser=new SysUser(userVo.getId(),userVo.getUsername(),userVo.getTelephone(),userVo.getMail(),userVo.getDeptId(),userVo.getStatus(),userVo.getRemark());
+        newSysUser.setOperator(RequestContext.getCurrentSysUser().getUsername());
+        newSysUser.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
+        newSysUser.setOperateTime(new Date());
         //有选择的update
         sysUserMapper.updateByPrimaryKeySelective(newSysUser);
     }
@@ -112,11 +117,11 @@ public class SysUserService {
     }
 
 
-    public PageResult<SysUser> getUsersByDept(Integer deptId, PageQueryVo pageQueryVo){
+    public PageResult<SysUser> getUsersByDept(Integer deptId, PageQuery pageQuery){
         PageResult<SysUser> result = new PageResult<>();
         int count = sysUserMapper.countByDeptId(deptId);
         if (count>=0){
-            List<SysUser> sysUsers = sysUserMapper.selectByDeptId(deptId, pageQueryVo);
+            List<SysUser> sysUsers = sysUserMapper.selectByDeptId(deptId, pageQuery);
             result.setTotal(count);
             result.setData(sysUsers);
         }

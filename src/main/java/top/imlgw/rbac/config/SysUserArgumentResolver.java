@@ -7,7 +7,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import top.imlgw.rbac.entity.SysUser;
-import top.imlgw.rbac.utils.UserContext;
+import top.imlgw.rbac.utils.RequestContext;
 
 /**
  * @author imlgw.top
@@ -25,6 +25,6 @@ public class SysUserArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
-        return UserContext.getUser();
+        return RequestContext.getCurrentSysUser();
     }
 }

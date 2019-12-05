@@ -1,10 +1,10 @@
 package top.imlgw.rbac.utils;
 
-import com.mmall.beans.Mail;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
+import top.imlgw.rbac.bean.Mail;
 
 @Slf4j
 public class MailUtil {

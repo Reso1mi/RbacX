@@ -6,6 +6,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import top.imlgw.rbac.entity.SysUser;
 import top.imlgw.rbac.utils.CookieUtil;
+import top.imlgw.rbac.utils.RequestContext;
 import top.imlgw.rbac.utils.UserContext;
 import top.imlgw.rbac.validator.NeedLogin;
 
@@ -27,17 +28,21 @@ public class LoginIntercept implements HandlerInterceptor {
         if(!(handler instanceof HandlerMethod)){
             return true;
         }
+        String requestURL = request.getRequestURL().toString();
+        if (requestURL.endsWith(".css") || requestURL.endsWith(".js")) {
+            return true;
+        }
         HandlerMethod hm=(HandlerMethod) handler;
         SysUser sysUser= getSysUser(request, response);
         //有的页面不需要登陆但是需要用户信息，所以需要先存进去
-        UserContext.setUser(sysUser);
+        RequestContext.add(sysUser);
         //获取方法上的注解
         NeedLogin needLogin = hm.getMethodAnnotation(NeedLogin.class);
         if(needLogin==null || ! needLogin.needLogin()){
-            //没有注解后者注解为false,就直接放过
+            //没有注解或者注解为false,就直接放过
             return true;
         }
-        //有注解，没登陆
+        //有注解且为true , 但是没登陆
         if(sysUser==null){
             response.sendRedirect("/login");
             return false;
@@ -55,8 +60,13 @@ public class LoginIntercept implements HandlerInterceptor {
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        //删除ThreadLocal中的User否则会产生错乱
-        UserContext.removeUser();
+        String requestURL = request.getRequestURL().toString();
+        if (requestURL.endsWith(".css") || requestURL.endsWith(".js")) {
+            return;
+        }
+        //删除ThreadLocal中的User和Request, 否则会产生错乱
+        //System.err.println("UserContext.removeUser()");
+        RequestContext.remove();
     }
 
 

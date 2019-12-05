@@ -8,7 +8,9 @@ import top.imlgw.rbac.dao.SysDeptMapper;
 import top.imlgw.rbac.entity.SysDept;
 import top.imlgw.rbac.exception.GlobalException;
 import top.imlgw.rbac.result.CodeMsg;
+import top.imlgw.rbac.utils.IpUtil;
 import top.imlgw.rbac.utils.LevelUtil;
+import top.imlgw.rbac.utils.RequestContext;
 import top.imlgw.rbac.vo.DeptVo;
 
 import java.util.Date;
@@ -34,11 +36,9 @@ public class SysDeptService {
         //11.25 fix a bug
         //又改回来了,是自己想错了
         sysDept.setLevel(LevelUtil.caculateLevel(getLevel(deptVo.getParentId()),deptVo.getParentId()));
+        sysDept.setOperator(RequestContext.getCurrentSysUser().getUsername());
         //todo
-        sysDept.setOperator("system");
-        //todo
-        sysDept.setOperateIp("127.0.0.1");
-        //todo
+        sysDept.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
         sysDept.setOperateTime(new Date());
         //insert是全量插入,插入所有字段
         sysDeptMapper.insertSelective(sysDept);
@@ -76,13 +76,10 @@ public class SysDeptService {
                 deptVo.getRemark()
         );
         //设置层级level类似 0.1.2.3. 这种
-        //0.1.2. --> 0.3.4.
+        //0.1.2.  -->  0.3.4.
         newSysDept.setLevel(LevelUtil.caculateLevel(getLevel(deptVo.getParentId()),deptVo.getParentId()));
-        //todo
-        newSysDept.setOperator("system");
-        //todo
-        newSysDept.setOperateIp("127.0.0.1");
-        //todo
+        newSysDept.setOperator(RequestContext.getCurrentSysUser().getUsername());
+        newSysDept.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
         newSysDept.setOperateTime(new Date());
         updateWithChild(oldSysDept,newSysDept);
     }
@@ -94,7 +91,7 @@ public class SysDeptService {
         String oldLevelPrefix = oldSysDept.getLevel()+oldSysDept.getId();
         if (!newLevelPrefix.equals(oldLevelPrefix)){
             //根据当前的 level+id+.% 查询待更新部门的所有子部门
-            //这一块要捋清楚最好画部门树的图
+            //这一块要捋清楚最好画一下部门树的图
             List<SysDept> childDept= sysDeptMapper.getChildDeptByLevel(oldLevelPrefix+".%");
             System.out.println("old: "+oldLevelPrefix+" , new: "+newLevelPrefix);
             System.out.println(childDept);

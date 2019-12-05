@@ -31,6 +31,9 @@ public class HttpInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURL = request.getRequestURL().toString();
+        if (requestURL.endsWith(".css") || requestURL.endsWith(".js")) {
+            return true;
+        }
         Map<String, String[]> parameterMap = request.getParameterMap();
         log.info("request start. url:{}, param:{}",requestURL,new HashMap<>(parameterMap));
         return true;

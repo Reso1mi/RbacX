@@ -9,7 +9,7 @@ import javax.validation.constraints.Min;
  * @author imlgw.top
  * @date 2019/12/3 21:07
  */
-public class PageQueryVo {
+public class PageQuery {
     @Getter
     @Setter
     @Min(value = 1,message = "当前页码不合法")

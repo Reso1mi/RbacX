@@ -9,7 +9,7 @@ import top.imlgw.rbac.validator.NeedLogin;
  * @date 2019/12/2 18:47
  */
 @Controller
-public class AdminController {
+public class RouterController {
 
     @RequestMapping("/admin")
     @NeedLogin
