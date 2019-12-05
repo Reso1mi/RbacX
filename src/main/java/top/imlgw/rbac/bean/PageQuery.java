@@ -1,4 +1,4 @@
-package top.imlgw.rbac.vo;
+package top.imlgw.rbac.bean;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,12 +13,12 @@ public class PageQueryVo {
     @Getter
     @Setter
     @Min(value = 1,message = "当前页码不合法")
-    private int pageNo=1;
+    private int pageNo;
 
     @Getter
     @Setter
     @Min(value = 1,message = "每页展示数量不合法")
-    private int pageSize=10;
+    private int pageSize;
 
     @Setter
     private  int offset;

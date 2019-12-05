@@ -359,12 +359,12 @@
         function loadUserList(deptId) {
             var pageSize = $("#pageSize").val();
             var url = "/system/user/list/" + deptId;
-            var pageNo = $("#userPage .pageNo").val() || 1;
+            var pageNo = $("#userPage.pageNo").val() || 1;
             $.ajax({
                 url : url,
                 data: {
-                    pageSize: pageSize,
-                    pageNo: pageNo
+                    pageNo: pageNo,
+                    pageSize: pageSize
                 },
                 success: function (result) {
                     renderUserListAndPage(result, url);
@@ -405,7 +405,7 @@
                     $("#userList").html('');
                 }
                 var pageSize = $("#pageSize").val();
-                var pageNo = $("#userPage .pageNo").val() || 1;
+                var pageNo = $("#userPage.pageNo").val()==null?1:$("#userPage.pageNo").val();
                 renderPage(url, result.data.total, pageNo, pageSize, result.data.total > 0 ? result.data.data.length : 0, "userPage", renderUserListAndPage);
             } else {
                 showMessage("获取部门下用户列表", result.msg, false);
@@ -671,14 +671,14 @@
             beforePageNo : pageNo == 1 ? 1 : (pageNo - 1),
             firstUrl : (pageNo == 1) ? '' : (url + paramStartChar + "pageNo=1&pageSize=" + pageSize),
             beforeUrl: (pageNo == 1) ? '' : (url + paramStartChar + "pageNo=" + (pageNo - 1) + "&pageSize=" + pageSize),
-            nextUrl : (pageNo >= maxPageNo) ? '' : (url + paramStartChar + "pageNo=" + (pageNo + 1) + "&pageSize=" + pageSize),
+            nextUrl : (pageNo >= maxPageNo) ? '' : (url + paramStartChar + "pageNo=" + (pageNo+1) + "&pageSize=" + pageSize),
             lastUrl : (pageNo >= maxPageNo) ? '' : (url + paramStartChar + "pageNo=" + maxPageNo + "&pageSize=" + pageSize)
         };
         $("#" + idElement).html(Mustache.render(paginateTemplate, view));
 
         $(".page-action").click(function(e) {
             e.preventDefault();
-            $("#" + idElement + " .pageNo").val($(this).attr("data-target"));
+            $("#" + idElement + ".pageNo").val($(this).attr("data-target"));
             var targetUrl  = $(this).attr("data-url");
             if(targetUrl != '') {
                 $.ajax({

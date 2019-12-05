@@ -1,4 +1,4 @@
-package top.imlgw.rbac.vo;
+package top.imlgw.rbac.pojo;
 
 import lombok.Getter;
 import lombok.Setter;
