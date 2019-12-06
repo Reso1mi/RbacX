@@ -156,7 +156,7 @@
     </update>-->
 
     <!--更新的情况下需要忽略当前的部门看有没有重复的-->
-    <!--todo: fix bug,the seq can repate-->
+    <!--todo: fix bug,the seq can repeat-->
     <select id="countByNameAndParentId" resultType="int">
         select count(*)
         from sys_dept

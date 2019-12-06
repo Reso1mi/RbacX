@@ -33,6 +33,7 @@ public class GlobalExceptionHandler {
             GlobalException ex = (GlobalException) e;
             return Result.error(ex.getCm());
         } else {
+            e.printStackTrace();
             return Result.error(CodeMsg.SERVER_ERROR);
         }
     }

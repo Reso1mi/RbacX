@@ -40,9 +40,11 @@ public class SysUserService {
             throw new GlobalException(CodeMsg.MAIL_REPEAT);
         }
         //TODO
-        String password=PasswordUtil.encode("123456");
+        String randompass = PasswordUtil.generatorPassword();
+        String password=PasswordUtil.encode(randompass);
         //TODO
-        //MailUtil.send();
+        //System.out.println(randompass);
+        //MailUtil.send(new Mail("初始化密码提醒",randompass,new HashSet<String>(){{add(userVo.getMail());}}));
         SysUser sysUser = new SysUser(userVo.getUsername(),
                 userVo.getTelephone(), userVo.getMail(),
                 password, userVo.getDeptId(),

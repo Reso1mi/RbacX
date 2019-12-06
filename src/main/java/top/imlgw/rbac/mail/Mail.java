@@ -1,4 +1,4 @@
-package top.imlgw.rbac.bean;
+package top.imlgw.rbac.mail;
 
 import lombok.Getter;
 import lombok.Setter;

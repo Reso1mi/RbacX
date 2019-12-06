@@ -11,15 +11,17 @@ public class CodeMsg {
     //通用
     public static final CodeMsg SUCCESS = new CodeMsg(0, "success");
     public static final CodeMsg SERVER_ERROR = new CodeMsg(-1, "server error !");
-
-    public static final CodeMsg REGISTER_SUCCESS = new CodeMsg(1, "注册成功!!");
     public static final CodeMsg BIND_ERROR = new CodeMsg(500101, "参数校验异常：%s");
 
-    //部门相关msg
+    //部门相关
     public static final CodeMsg DEPT_REPEAT = new CodeMsg(500201, "同一层级下存在相同名称的部门");
     public static final CodeMsg DEPT_NOT_EXIST = new CodeMsg(500202, "部门不存在");
 
-    //用户相关msg
+    //权限模块相关
+    public static final CodeMsg ACLMODULE_REPEAT = new CodeMsg(500401,"同一层级下存在相同的权限模块！");
+    public static final CodeMsg ACLMODULE_NOT_EXIST = new CodeMsg(500202, "权限模块不存在！");
+
+    //用户相关
     public static final CodeMsg USER_NOT_EXIST = new CodeMsg(500301,"用户不存在");
     public static final CodeMsg MAIL_REPEAT = new CodeMsg(500302, "邮箱已经被注册！");
     public static final CodeMsg PHONE_REPEAT = new CodeMsg(500303, "手机号已经被注册！");

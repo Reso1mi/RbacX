@@ -20,3 +20,10 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: top.imlgw.demo.pojo
+#mail:
+#  host: smtp.qq.com
+#  username: privateli@qq.com
+#  password:
+#  nickname: Resolmi
+#  port: 587
+

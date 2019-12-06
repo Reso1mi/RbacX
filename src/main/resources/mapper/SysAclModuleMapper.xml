@@ -149,4 +149,20 @@
       operate_ip = #{operateIp,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <select id="getChildAclModuleListByLevel" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from sys_dept
+        where level like #{level}
+    </select>
+
+    <!--todo: fix bug,the seq can repeat-->
+    <select id="countByNameAndParentId" resultType="int">
+        select count(*)
+        from sys_dept
+        where name =#{name} and parent_id=#{parentId} and  seq=#{seq}
+        <if test="id!=null">
+            and id!=#{id}
+        </if>
+    </select>
 </mapper>

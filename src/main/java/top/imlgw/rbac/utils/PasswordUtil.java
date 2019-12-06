@@ -13,6 +13,10 @@ public class PasswordUtil {
     //不要l和1,容易混淆
     private static final String chars="abcdefghijkmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ023456789";
 
+    public static  String generatorPassword(){
+        return  randomStr(8);
+    }
+
     private static String randomStr(int count){
         Random random=new Random(new Date().getTime());
         //线程安全

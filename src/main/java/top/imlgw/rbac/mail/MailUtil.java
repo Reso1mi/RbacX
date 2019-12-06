@@ -1,22 +1,22 @@
-package top.imlgw.rbac.utils;
+package top.imlgw.rbac.mail;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
-import top.imlgw.rbac.bean.Mail;
+import java.util.HashSet;
+
 
 @Slf4j
 public class MailUtil {
 
     public static boolean send(Mail mail) {
-
         // TODO
-        String from = "";
-        int port = 25;
-        String host = "";
-        String pass = "";
-        String nickname = "";
+        String from = "privateli@qq.com";
+        int port = 587;
+        String host = "smtp.qq.com";
+        String pass = "zggkfcrkgnpjbdef";
+        String nickname = "Resolmi";
 
         HtmlEmail email = new HtmlEmail();
         try {
@@ -39,5 +39,8 @@ public class MailUtil {
         }
     }
 
+    public static void main(String[] args) {
+        send(new Mail("啊哈哈哈哈哈哈哈哈","窝窝头,10个____元", new HashSet<String>(){{add("lvsdian@qq.com");}}));
+    }
 }
 

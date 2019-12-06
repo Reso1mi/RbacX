@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import top.imlgw.rbac.utils.RequestContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,7 @@ public class HttpInterceptor implements HandlerInterceptor {
         if (requestURL.endsWith(".css") || requestURL.endsWith(".js")) {
             return true;
         }
+        RequestContext.add(request);
         Map<String, String[]> parameterMap = request.getParameterMap();
         log.info("request start. url:{}, param:{}",requestURL,new HashMap<>(parameterMap));
         return true;
