@@ -23,6 +23,10 @@ public class SysAclModule {
 
     private String operateIp;
 
+    public SysAclModule() {
+
+    }
+
     public SysAclModule(String name, Integer parentId, Integer seq, String remark) {
         this.name = name;
         this.parentId = parentId;
@@ -30,12 +34,13 @@ public class SysAclModule {
         this.remark = remark;
     }
 
-    public SysAclModule(Integer id, String name, Integer parentId, Integer seq, String remark) {
+    public SysAclModule(Integer id, String name, Integer parentId, Integer seq,Integer status,String remark) {
         this.id=id;
         this.name=name;
         this.parentId=parentId;
         this.seq=seq;
         this.remark=remark;
+        this.status=status;
     }
 
     public Integer getId() {

@@ -24,4 +24,6 @@ public interface SysAclModuleMapper {
                                @Param("seq") Integer seq, @Param("id") Integer id);
 
     List<SysAclModule> getChildAclModuleListByLevel(@Param("level") String level);
+
+    List<SysAclModule> getAllAclModule();
 }

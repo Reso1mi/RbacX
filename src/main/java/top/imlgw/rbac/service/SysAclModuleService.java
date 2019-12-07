@@ -35,7 +35,8 @@ public class SysAclModuleService {
         //11.25 fix a bug
         //又改回来了,是自己想错了
         sysAclModule.setLevel(LevelUtil.caculateLevel(getLevel(aclModuleVo.getParentId()),aclModuleVo.getParentId()));
-        sysAclModule.setOperator(RequestContext.getCurrentSysUser().getUsername());
+        //sysAclModule.setOperator(RequestContext.getCurrentSysUser().getUsername());
+        sysAclModule.setOperator("test");
         //todo
         sysAclModule.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
         sysAclModule.setOperateTime(new Date());
@@ -56,19 +57,21 @@ public class SysAclModuleService {
                 aclModuleVo.getName(),
                 aclModuleVo.getParentId(),
                 aclModuleVo.getSeq(),
+                aclModuleVo.getStatus(),
                 aclModuleVo.getRemark()
         );
         //设置层级level类似 0.1.2.3. 这种
         //0.1.2.  -->  0.3.4.
         newSysAclModule.setLevel(LevelUtil.caculateLevel(getLevel(aclModuleVo.getParentId()),aclModuleVo.getParentId()));
-        newSysAclModule.setOperator(RequestContext.getCurrentSysUser().getUsername());
+        //newSysAclModule.setOperator(RequestContext.getCurrentSysUser().getUsername());
+        newSysAclModule.setOperator("test");
         newSysAclModule.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
         newSysAclModule.setOperateTime(new Date());
         updateWithChild(oldSysAclModule,newSysAclModule);
     }
 
-    private boolean isExist(Integer parentId, String deptName,Integer seq,Integer deptId) {
-        return sysAclModuleMapper.countByNameAndParentId(deptName,parentId,seq,deptId)>0;
+    private boolean isExist(Integer parentId, String aclModuleName,Integer seq,Integer aclModuleId) {
+        return sysAclModuleMapper.countByNameAndParentId(aclModuleName,parentId,seq,aclModuleId)>0;
     }
 
     private String getLevel(Integer aclModuleId){
@@ -87,17 +90,15 @@ public class SysAclModuleService {
         if (!newLevelPrefix.equals(oldLevelPrefix)){
             //根据当前的 level+id+.% 查询待更新部门的所有子部门
             //这一块要捋清楚最好画一下部门树的图
-            List<SysAclModule> childDept= sysAclModuleMapper.getChildAclModuleListByLevel(oldLevelPrefix+".%");
-            System.out.println("old: "+oldLevelPrefix+" , new: "+newLevelPrefix);
-            System.out.println(childDept);
-            if (!CollectionUtils.isEmpty(childDept)){
-                for (SysAclModule sysAclModule: childDept) {
+            List<SysAclModule> childModule= sysAclModuleMapper.getChildAclModuleListByLevel(oldLevelPrefix+".%");
+            if (!CollectionUtils.isEmpty(childModule)){
+                for (SysAclModule sysAclModule: childModule) {
                     //子部门后缀
                     String levelSuffix = sysAclModule.getLevel().substring(oldLevelPrefix.length());
                     sysAclModule.setLevel(newLevelPrefix+levelSuffix);
                 }
                 //更新所有子部门的level
-                childDept.forEach(sysAclModuleMapper::updateByPrimaryKey);
+                childModule.forEach(sysAclModuleMapper::updateByPrimaryKey);
             }
         }
         sysAclModuleMapper.updateByPrimaryKey(newSysAclModule);

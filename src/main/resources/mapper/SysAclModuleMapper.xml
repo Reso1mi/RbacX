@@ -152,17 +152,22 @@
 
     <select id="getChildAclModuleListByLevel" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
-        from sys_dept
+        from sys_acl_module
         where level like #{level}
     </select>
 
     <!--todo: fix bug,the seq can repeat-->
     <select id="countByNameAndParentId" resultType="int">
         select count(*)
-        from sys_dept
-        where name =#{name} and parent_id=#{parentId} and  seq=#{seq}
+        from sys_acl_module
+        where name =#{modulename} and parent_id=#{parentId} and  seq=#{seq}
         <if test="id!=null">
             and id!=#{id}
         </if>
+    </select>
+
+    <select id="getAllAclModule" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from sys_acl_module
     </select>
 </mapper>
