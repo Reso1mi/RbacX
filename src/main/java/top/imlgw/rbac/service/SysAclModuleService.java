@@ -35,8 +35,8 @@ public class SysAclModuleService {
         //11.25 fix a bug
         //又改回来了,是自己想错了
         sysAclModule.setLevel(LevelUtil.caculateLevel(getLevel(aclModuleVo.getParentId()),aclModuleVo.getParentId()));
-        //sysAclModule.setOperator(RequestContext.getCurrentSysUser().getUsername());
-        sysAclModule.setOperator("test");
+        sysAclModule.setOperator(RequestContext.getCurrentSysUser().getUsername());
+        //sysAclModule.setOperator("test");
         //todo
         sysAclModule.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
         sysAclModule.setOperateTime(new Date());

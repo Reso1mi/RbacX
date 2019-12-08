@@ -1,7 +1,10 @@
 package top.imlgw.rbac.entity;
 
+import lombok.ToString;
+
 import java.util.Date;
 
+@ToString
 public class SysAcl {
     private Integer id;
 
@@ -26,6 +29,30 @@ public class SysAcl {
     private Date operateTime;
 
     private String operateIp;
+
+    public SysAcl() {
+    }
+
+    public SysAcl(String name, Integer aclModuleId, String url, Integer type, Integer status, Integer seq, String remark) {
+        this.name = name;
+        this.aclModuleId = aclModuleId;
+        this.url = url;
+        this.type = type;
+        this.status = status;
+        this.seq = seq;
+        this.remark = remark;
+    }
+
+    public SysAcl(Integer id, String name, Integer aclModuleId, String url, Integer type, Integer status, Integer seq, String remark) {
+        this.id = id;
+        this.name = name;
+        this.aclModuleId = aclModuleId;
+        this.url = url;
+        this.type = type;
+        this.status = status;
+        this.seq = seq;
+        this.remark = remark;
+    }
 
     public Integer getId() {
         return id;

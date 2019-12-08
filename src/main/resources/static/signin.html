@@ -47,6 +47,8 @@
     <script src="/bootstrap3.3.5/js/bootstrap.min.js"></script>
     <!--template-->
     <script src="http://cdn.bootcss.com/mustache.js/2.2.1/mustache.js"></script>
+    <!--common.js-->
+    <script src="/common/common.js"></script>
 </head>
 
 <body>
@@ -81,32 +83,6 @@
                 showMessage("登陆信息","服务器错误",false);
             }
         });
-    }
-
-    // 展示提示信息
-    function showMessage(title, msg, isSuccess) {
-        if (!isSuccess) {
-            msg = msg || '';
-        } else {
-            msg = msg || '操作成功'
-        }
-        $.gritter.add({
-            title: title,
-            text: msg != '' ? msg : "服务器处理异常, 建议刷新页面来保证数据是最新的",
-            time: '',
-            class_name: (isSuccess ? 'gritter-success' : 'gritter-warning') + (!$('#gritter-light').get(0).checked ? ' gritter-light' : '')
-        });
-    }
-
-    function getFormData($form) {
-        var unindexed_array = $form.serializeArray();
-        var indexed_array = {};
-
-        $.map(unindexed_array, function (n, i) {
-            indexed_array[n['name']] = n['value'];
-        });
-
-        return indexed_array;
     }
 </script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

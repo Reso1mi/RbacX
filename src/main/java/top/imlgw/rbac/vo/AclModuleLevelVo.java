@@ -17,7 +17,7 @@ import java.util.List;
 @ToString
 public class AclModuleLevelVo extends SysAclModule{
     //添加一个List属性,形成部门树的结构
-    private List<AclModuleLevelVo> aclModuleLevelList= new ArrayList<>();
+    private List<AclModuleLevelVo> aclModuleList= new ArrayList<>();
 
     public static AclModuleLevelVo adapt(SysAclModule sysAclModule){
         AclModuleLevelVo aclModuleVo=new AclModuleLevelVo();

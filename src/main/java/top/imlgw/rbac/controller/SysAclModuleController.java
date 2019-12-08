@@ -3,10 +3,7 @@ package top.imlgw.rbac.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.Result;
 import top.imlgw.rbac.service.SysAclModuleService;
@@ -21,7 +18,7 @@ import java.util.List;
  * @author imlgw.top
  * @date 2019/12/6 23:45
  */
-@Controller
+@RestController
 @RequestMapping("/system/aclModule")
 public class SysAclModuleController {
 
@@ -33,7 +30,6 @@ public class SysAclModuleController {
     private SysTreeService sysTreeService;
 
     @PostMapping("/save")
-    @ResponseBody
     @NeedLogin
     public Result saveAclModule(@Validated @RequestBody AclModuleVo aclModuleVo){
         sysAclModuleService.save(aclModuleVo);
@@ -41,7 +37,6 @@ public class SysAclModuleController {
     }
 
     @PostMapping("/update")
-    @ResponseBody
     @NeedLogin
     public Result updateAclModule(@Validated @RequestBody AclModuleVo aclModuleVo){
         sysAclModuleService.update(aclModuleVo);
@@ -50,8 +45,7 @@ public class SysAclModuleController {
 
 
     @RequestMapping("/tree")
-    @ResponseBody
-    //@NeedLogin
+    @NeedLogin
     public Result treeAclModule(){
         List<AclModuleLevelVo> aclModuleTree = sysTreeService.createAclModuleTree();
         return Result.success(aclModuleTree);

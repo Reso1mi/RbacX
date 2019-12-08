@@ -18,7 +18,7 @@ import java.util.List;
  * @author imlgw.top
  * @date 2019/11/21 20:21
  */
-@Controller
+@RestController
 @RequestMapping("/system/dept")
 public class SysDeptController {
 
@@ -29,7 +29,6 @@ public class SysDeptController {
     private SysTreeService sysTreeService;
 
     @RequestMapping("/tree")
-    @ResponseBody
     @NeedLogin
     public Result treeDept(){
         List<DeptLevelVo> deptTree = sysTreeService.createDeptTree();
@@ -37,7 +36,6 @@ public class SysDeptController {
     }
 
     @PostMapping("/save")
-    @ResponseBody
     @NeedLogin
     public Result saveDept(@Validated @RequestBody DeptVo deptVo){
         sysDeptService.save(deptVo);
@@ -47,7 +45,6 @@ public class SysDeptController {
 
     //todo
     @PostMapping("/delete")
-    @ResponseBody
     @NeedLogin
     public Result deleteDept(Integer id){
         //todo 删除和用户模块相关,等用户模块开发完成再实现
@@ -56,7 +53,6 @@ public class SysDeptController {
     }
 
     @PostMapping("/update")
-    @ResponseBody
     @NeedLogin
     public Result updateDept(@Validated @RequestBody DeptVo deptVo){
         sysDeptService.update(deptVo);

@@ -18,13 +18,17 @@ public class CodeMsg {
     public static final CodeMsg DEPT_NOT_EXIST = new CodeMsg(500202, "部门不存在");
 
     //权限模块相关
-    public static final CodeMsg ACLMODULE_REPEAT = new CodeMsg(500401,"同一层级下存在相同的权限模块！");
-    public static final CodeMsg ACLMODULE_NOT_EXIST = new CodeMsg(500202, "权限模块不存在！");
+    public static final CodeMsg ACLMODULE_REPEAT = new CodeMsg(500301,"同一层级下存在相同的权限模块！");
+    public static final CodeMsg ACLMODULE_NOT_EXIST = new CodeMsg(500302, "权限模块不存在！");
+
+    //权限点相关
+    public static final CodeMsg ACL_REPEAT = new CodeMsg(500401,"同一权限模块下存在相同的权限点！");
+    public static final CodeMsg ACL_NOT_EXIST = new CodeMsg(500402, "权限点不存在！");
 
     //用户相关
-    public static final CodeMsg USER_NOT_EXIST = new CodeMsg(500301,"用户不存在");
-    public static final CodeMsg MAIL_REPEAT = new CodeMsg(500302, "邮箱已经被注册！");
-    public static final CodeMsg PHONE_REPEAT = new CodeMsg(500303, "手机号已经被注册！");
+    public static final CodeMsg USER_NOT_EXIST = new CodeMsg(500501,"用户不存在");
+    public static final CodeMsg MAIL_REPEAT = new CodeMsg(500502, "邮箱已经被注册！");
+    public static final CodeMsg PHONE_REPEAT = new CodeMsg(500503, "手机号已经被注册！");
 
     public static final CodeMsg PASSWORD_EMPTY = new CodeMsg(500211, "密码不能为空");
     public static final CodeMsg MOBILE_EMPTY = new CodeMsg(500212, "号码不能为空");

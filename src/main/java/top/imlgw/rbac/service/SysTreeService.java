@@ -139,7 +139,7 @@ public class SysTreeService {
             if (!CollectionUtils.isEmpty(nextAclModuleList)) {
                 Collections.sort(nextAclModuleList, Comparator.comparingInt(AclModuleLevelVo::getSeq));
                 //形成树形结构,将下一层的所有dept 设置为当前层级的deptList
-                aclModuleLevelVo.setAclModuleLevelList(nextAclModuleList);
+                aclModuleLevelVo.setAclModuleList(nextAclModuleList);
                 //递归深搜完成整个部门树的构建
                 dfsCreateAclModuleTree(nextAclModuleList, levelAclModuleMap, nextLevel);
             }

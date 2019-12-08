@@ -13,7 +13,7 @@ public class RouterController {
 
     @RequestMapping("/admin")
     @NeedLogin
-    public String index(){
+    public String admin(){
         return "admin";
     }
 
@@ -21,5 +21,12 @@ public class RouterController {
     @NeedLogin
     public String dept(){
         return "dept";
+    }
+
+
+    @RequestMapping("/acl")
+    @NeedLogin
+    public String acl(){
+        return "acl";
     }
 }
