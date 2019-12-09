@@ -160,7 +160,7 @@
     <select id="countByNameAndParentId" resultType="int">
         select count(*)
         from sys_acl_module
-        where name =#{modulename} and parent_id=#{parentId} and  seq=#{seq}
+        where name =#{modulename} and parent_id=#{parentId}
         <if test="id!=null">
             and id!=#{id}
         </if>

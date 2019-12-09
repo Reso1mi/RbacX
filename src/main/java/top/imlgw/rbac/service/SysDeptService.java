@@ -105,6 +105,7 @@ public class SysDeptService {
                 childDept.forEach(sysDeptMapper::updateByPrimaryKey);
             }
         }
+        //这里可以直接全量更新,因为传过来的对象就是全量的
         sysDeptMapper.updateByPrimaryKey(newSysDept);
     }
 

@@ -1,7 +1,7 @@
 package top.imlgw.rbac.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import top.imlgw.rbac.validator.NeedLogin;
 
 /**
@@ -11,20 +11,20 @@ import top.imlgw.rbac.validator.NeedLogin;
 @Controller
 public class RouterController {
 
-    @RequestMapping("/admin")
+    @GetMapping("/admin")
     @NeedLogin
     public String admin(){
         return "admin";
     }
 
-    @RequestMapping("/dept")
+    @GetMapping("/dept")
     @NeedLogin
     public String dept(){
         return "dept";
     }
 
 
-    @RequestMapping("/acl")
+    @GetMapping("/acl")
     @NeedLogin
     public String acl(){
         return "acl";

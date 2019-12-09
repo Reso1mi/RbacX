@@ -78,7 +78,6 @@ public class SysUserService {
         newSysUser.setOperator(RequestContext.getCurrentSysUser().getUsername());
         newSysUser.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
         newSysUser.setOperateTime(new Date());
-        //有选择的update
         sysUserMapper.updateByPrimaryKeySelective(newSysUser);
     }
 
@@ -121,6 +120,7 @@ public class SysUserService {
 
     public PageResult<SysUser> getUsersByDept(Integer deptId, PageQuery pageQuery){
         PageResult<SysUser> result = new PageResult<>();
+        //统计当前部门所有用户总数量
         int count = sysUserMapper.countByDeptId(deptId);
         if (count>=0){
             List<SysUser> sysUsers = sysUserMapper.selectByDeptId(deptId, pageQuery);

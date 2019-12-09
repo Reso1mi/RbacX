@@ -22,4 +22,3 @@ function getFormData($form) {
 
     return indexed_array;
 }
-

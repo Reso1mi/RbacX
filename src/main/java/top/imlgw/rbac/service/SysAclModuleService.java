@@ -63,8 +63,7 @@ public class SysAclModuleService {
         //设置层级level类似 0.1.2.3. 这种
         //0.1.2.  -->  0.3.4.
         newSysAclModule.setLevel(LevelUtil.caculateLevel(getLevel(aclModuleVo.getParentId()),aclModuleVo.getParentId()));
-        //newSysAclModule.setOperator(RequestContext.getCurrentSysUser().getUsername());
-        newSysAclModule.setOperator("test");
+        newSysAclModule.setOperator(RequestContext.getCurrentSysUser().getUsername());
         newSysAclModule.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
         newSysAclModule.setOperateTime(new Date());
         updateWithChild(oldSysAclModule,newSysAclModule);
@@ -84,12 +83,11 @@ public class SysAclModuleService {
 
     @Transactional
     public void updateWithChild(SysAclModule oldSysAclModule,SysAclModule newSysAclModule){
-        //子部门的level前缀,需要加上当前部门的id,这也是原项目中的bug
         String newLevelPrefix = newSysAclModule.getLevel()+oldSysAclModule.getId();
         String oldLevelPrefix = oldSysAclModule.getLevel()+oldSysAclModule.getId();
         if (!newLevelPrefix.equals(oldLevelPrefix)){
-            //根据当前的 level+id+.% 查询待更新部门的所有子部门
-            //这一块要捋清楚最好画一下部门树的图
+            //根据当前的 level+id+.% 查询待更新模块的所有子模块
+            //这一块要捋清楚最好画一下模块树的图
             List<SysAclModule> childModule= sysAclModuleMapper.getChildAclModuleListByLevel(oldLevelPrefix+".%");
             if (!CollectionUtils.isEmpty(childModule)){
                 for (SysAclModule sysAclModule: childModule) {
@@ -97,10 +95,11 @@ public class SysAclModuleService {
                     String levelSuffix = sysAclModule.getLevel().substring(oldLevelPrefix.length());
                     sysAclModule.setLevel(newLevelPrefix+levelSuffix);
                 }
-                //更新所有子部门的level
+                //更新所有子模块的level
                 childModule.forEach(sysAclModuleMapper::updateByPrimaryKey);
             }
         }
+        //和部门一样也是可以直接全量更新的
         sysAclModuleMapper.updateByPrimaryKey(newSysAclModule);
     }
 }

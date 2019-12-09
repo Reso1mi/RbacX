@@ -44,7 +44,7 @@ public class SysAclModuleController {
     }
 
 
-    @RequestMapping("/tree")
+    @GetMapping("/tree")
     @NeedLogin
     public Result treeAclModule(){
         List<AclModuleLevelVo> aclModuleTree = sysTreeService.createAclModuleTree();

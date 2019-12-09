@@ -28,7 +28,7 @@ public class SysDeptController {
     @Autowired
     private SysTreeService sysTreeService;
 
-    @RequestMapping("/tree")
+    @GetMapping("/tree")
     @NeedLogin
     public Result treeDept(){
         List<DeptLevelVo> deptTree = sysTreeService.createDeptTree();
