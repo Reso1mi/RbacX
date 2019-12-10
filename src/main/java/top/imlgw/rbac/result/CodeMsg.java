@@ -30,6 +30,10 @@ public class CodeMsg {
     public static final CodeMsg MAIL_REPEAT = new CodeMsg(500502, "邮箱已经被注册！");
     public static final CodeMsg PHONE_REPEAT = new CodeMsg(500503, "手机号已经被注册！");
 
+    //角色相关
+    public static final CodeMsg ROLE_REPEAT = new CodeMsg(500601,"角色名称已经存在");
+    public static final CodeMsg ROLE_NOT_EXIST = new CodeMsg(500602, "角色不存在");
+
     public static final CodeMsg PASSWORD_EMPTY = new CodeMsg(500211, "密码不能为空");
     public static final CodeMsg MOBILE_EMPTY = new CodeMsg(500212, "号码不能为空");
     public static final CodeMsg MOBILE_ERROR = new CodeMsg(500213, "号码格式错误");

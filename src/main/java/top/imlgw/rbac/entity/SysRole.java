@@ -1,7 +1,9 @@
 package top.imlgw.rbac.entity;
 
-import java.util.Date;
+import lombok.ToString;
 
+import java.util.Date;
+@ToString
 public class SysRole {
     private Integer id;
 
@@ -18,6 +20,25 @@ public class SysRole {
     private Date operateTime;
 
     private String operateIp;
+
+    public SysRole(){
+
+    }
+
+    public SysRole( String name, Integer type, Integer status, String remark) {
+        this.name = name;
+        this.type = type;
+        this.status = status;
+        this.remark = remark;
+    }
+
+    public SysRole(Integer id, String name, Integer type, Integer status, String remark) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.status = status;
+        this.remark = remark;
+    }
 
     public Integer getId() {
         return id;

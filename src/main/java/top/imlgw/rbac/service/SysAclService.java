@@ -11,7 +11,6 @@ import top.imlgw.rbac.result.PageResult;
 import top.imlgw.rbac.utils.IpUtil;
 import top.imlgw.rbac.utils.RequestContext;
 import top.imlgw.rbac.vo.AclVo;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -29,7 +28,6 @@ public class SysAclService {
     private SysAclMapper sysAclMapper;
 
     public void save(AclVo aclVo){
-        System.out.println(aclVo);
         if (checkExist(aclVo.getAclModuleId(),aclVo.getName(),aclVo.getSeq(),aclVo.getId())){
             throw new GlobalException(CodeMsg.ACL_REPEAT);
         }
