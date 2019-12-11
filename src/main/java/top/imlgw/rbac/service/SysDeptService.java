@@ -11,7 +11,7 @@ import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.utils.IpUtil;
 import top.imlgw.rbac.utils.LevelUtil;
 import top.imlgw.rbac.utils.RequestContext;
-import top.imlgw.rbac.vo.DeptVo;
+import top.imlgw.rbac.vo.DeptParam;
 
 import java.util.Date;
 import java.util.List;
@@ -27,15 +27,15 @@ public class SysDeptService {
     @Autowired
     private SysDeptMapper sysDeptMapper;
 
-    public void save(DeptVo deptVo) {
-        if (isExist(deptVo.getParentId(), deptVo.getName(),deptVo.getSeq(),deptVo.getId())) {
+    public void save(DeptParam deptParam) {
+        if (isExist(deptParam.getParentId(), deptParam.getName(), deptParam.getSeq(), deptParam.getId())) {
             throw new GlobalException(CodeMsg.DEPT_REPEAT);
         }
-        SysDept sysDept =new SysDept(deptVo.getName(),deptVo.getParentId(),deptVo.getSeq(),deptVo.getRemark());
+        SysDept sysDept =new SysDept(deptParam.getName(), deptParam.getParentId(), deptParam.getSeq(), deptParam.getRemark());
         //设置层级level类似 0.1.2.3这种
         //11.25 fix a bug
         //又改回来了,是自己想错了
-        sysDept.setLevel(LevelUtil.caculateLevel(getLevel(deptVo.getParentId()),deptVo.getParentId()));
+        sysDept.setLevel(LevelUtil.caculateLevel(getLevel(deptParam.getParentId()), deptParam.getParentId()));
         sysDept.setOperator(RequestContext.getCurrentSysUser().getUsername());
         //todo
         sysDept.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
@@ -60,24 +60,24 @@ public class SysDeptService {
         return sysDept.getLevel();
     }
 
-    public void update(DeptVo deptVo) {
-        if (isExist(deptVo.getParentId(), deptVo.getName(),deptVo.getSeq(),deptVo.getId())) {
+    public void update(DeptParam deptParam) {
+        if (isExist(deptParam.getParentId(), deptParam.getName(), deptParam.getSeq(), deptParam.getId())) {
             throw new GlobalException(CodeMsg.DEPT_REPEAT);
         }
-        SysDept oldSysDept = sysDeptMapper.selectByPrimaryKey(deptVo.getId());
+        SysDept oldSysDept = sysDeptMapper.selectByPrimaryKey(deptParam.getId());
         if (oldSysDept==null){
             throw new GlobalException(CodeMsg.DEPT_NOT_EXIST);
         }
         SysDept newSysDept =new SysDept(
-                deptVo.getId(),
-                deptVo.getName(),
-                deptVo.getParentId(),
-                deptVo.getSeq(),
-                deptVo.getRemark()
+                deptParam.getId(),
+                deptParam.getName(),
+                deptParam.getParentId(),
+                deptParam.getSeq(),
+                deptParam.getRemark()
         );
         //设置层级level类似 0.1.2.3. 这种
         //0.1.2.  -->  0.3.4.
-        newSysDept.setLevel(LevelUtil.caculateLevel(getLevel(deptVo.getParentId()),deptVo.getParentId()));
+        newSysDept.setLevel(LevelUtil.caculateLevel(getLevel(deptParam.getParentId()), deptParam.getParentId()));
         newSysDept.setOperator(RequestContext.getCurrentSysUser().getUsername());
         newSysDept.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
         newSysDept.setOperateTime(new Date());
@@ -115,7 +115,7 @@ public class SysDeptService {
     }
 
     //todo
-    private  void deleteChild(List<DeptVo> deptList){
+    private  void deleteChild(List<DeptParam> deptList){
 
     }
 }

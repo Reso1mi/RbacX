@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
-public class UserVo {
+public class UserParam {
 
     private Integer id;
 

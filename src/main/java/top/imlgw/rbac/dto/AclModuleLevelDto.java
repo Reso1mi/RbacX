@@ -1,4 +1,4 @@
-package top.imlgw.rbac.vo;
+package top.imlgw.rbac.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,12 +15,14 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class AclModuleLevelVo extends SysAclModule{
+public class AclModuleLevelDto extends SysAclModule{
     //添加一个List属性,形成部门树的结构
-    private List<AclModuleLevelVo> aclModuleList= new ArrayList<>();
+    private List<AclModuleLevelDto> aclModuleList= new ArrayList<>();
 
-    public static AclModuleLevelVo adapt(SysAclModule sysAclModule){
-        AclModuleLevelVo aclModuleVo=new AclModuleLevelVo();
+    private List<AclDto> aclList = new ArrayList<>();
+
+    public static AclModuleLevelDto adapt(SysAclModule sysAclModule){
+        AclModuleLevelDto aclModuleVo=new AclModuleLevelDto();
         //copybean的工具,还挺好用
         BeanUtils.copyProperties(sysAclModule, aclModuleVo);
         return aclModuleVo;

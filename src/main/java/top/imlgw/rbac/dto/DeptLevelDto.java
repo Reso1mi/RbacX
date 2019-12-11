@@ -1,4 +1,4 @@
-package top.imlgw.rbac.vo;
+package top.imlgw.rbac.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,15 +16,15 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class DeptLevelVo extends SysDept {
+public class DeptLevelDto extends SysDept {
 
     //添加一个List属性,形成部门树的结构
-    private List<DeptLevelVo> deptList= new ArrayList<>();
+    private List<DeptLevelDto> deptList= new ArrayList<>();
 
-    public static DeptLevelVo adapt(SysDept sysDept){
-        DeptLevelVo deptLevelVo =new DeptLevelVo();
+    public static DeptLevelDto adapt(SysDept sysDept){
+        DeptLevelDto deptLevelDto =new DeptLevelDto();
         //copybean的工具,还挺好用
-        BeanUtils.copyProperties(sysDept, deptLevelVo);
-        return deptLevelVo;
+        BeanUtils.copyProperties(sysDept, deptLevelDto);
+        return deptLevelDto;
     }
 }

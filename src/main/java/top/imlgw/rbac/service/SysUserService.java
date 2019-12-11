@@ -8,9 +8,9 @@ import top.imlgw.rbac.exception.GlobalException;
 import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.PageResult;
 import top.imlgw.rbac.utils.*;
-import top.imlgw.rbac.vo.LoginVo;
-import top.imlgw.rbac.bean.PageQuery;
-import top.imlgw.rbac.vo.UserVo;
+import top.imlgw.rbac.vo.LoginParam;
+import top.imlgw.rbac.dto.PageQuery;
+import top.imlgw.rbac.vo.UserParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,13 +30,13 @@ public class SysUserService {
 
     /**
      * 保存用户
-     * @param userVo
+     * @param userParam
      */
-    public void save(UserVo userVo){
-        if (phoneExist(userVo.getTelephone(),userVo.getId())){
+    public void save(UserParam userParam){
+        if (phoneExist(userParam.getTelephone(), userParam.getId())){
             throw new GlobalException(CodeMsg.PHONE_REPEAT);
         }
-        if (mailExist(userVo.getMail(),userVo.getId())){
+        if (mailExist(userParam.getMail(), userParam.getId())){
             throw new GlobalException(CodeMsg.MAIL_REPEAT);
         }
         //TODO
@@ -44,11 +44,11 @@ public class SysUserService {
         String password=PasswordUtil.encode(randompass);
         //TODO
         //System.out.println(randompass);
-        //MailUtil.send(new Mail("初始化密码提醒",randompass,new HashSet<String>(){{add(userVo.getMail());}}));
-        SysUser sysUser = new SysUser(userVo.getUsername(),
-                userVo.getTelephone(), userVo.getMail(),
-                password, userVo.getDeptId(),
-                userVo.getStatus(), userVo.getRemark());
+        //MailUtil.send(new Mail("初始化密码提醒",randompass,new HashSet<String>(){{add(userParam.getMail());}}));
+        SysUser sysUser = new SysUser(userParam.getUsername(),
+                userParam.getTelephone(), userParam.getMail(),
+                password, userParam.getDeptId(),
+                userParam.getStatus(), userParam.getRemark());
         //直接从User上下文中取
         sysUser.setOperator(RequestContext.getCurrentSysUser().getUsername());
         //IpUtil解析http请求中的ip地址
@@ -60,21 +60,21 @@ public class SysUserService {
 
     /**
      * 修改用户
-     * @param userVo
+     * @param userParam
      */
-    public void update(UserVo userVo){
-        if (phoneExist(userVo.getTelephone(),userVo.getId())){
+    public void update(UserParam userParam){
+        if (phoneExist(userParam.getTelephone(), userParam.getId())){
             throw new GlobalException(CodeMsg.PHONE_REPEAT);
         }
-        if (mailExist(userVo.getMail(),userVo.getId())){
+        if (mailExist(userParam.getMail(), userParam.getId())){
             throw new GlobalException(CodeMsg.MAIL_REPEAT);
         }
-        SysUser oldSysUser = sysUserMapper.selectByPrimaryKey(userVo.getId());
+        SysUser oldSysUser = sysUserMapper.selectByPrimaryKey(userParam.getId());
         if (oldSysUser==null){
             throw new GlobalException(CodeMsg.USER_NOT_EXIST);
         }
         //update
-        SysUser newSysUser=new SysUser(userVo.getId(),userVo.getUsername(),userVo.getTelephone(),userVo.getMail(),userVo.getDeptId(),userVo.getStatus(),userVo.getRemark());
+        SysUser newSysUser=new SysUser(userParam.getId(), userParam.getUsername(), userParam.getTelephone(), userParam.getMail(), userParam.getDeptId(), userParam.getStatus(), userParam.getRemark());
         newSysUser.setOperator(RequestContext.getCurrentSysUser().getUsername());
         newSysUser.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
         newSysUser.setOperateTime(new Date());
@@ -95,13 +95,13 @@ public class SysUserService {
 
     /**
      * 做登陆操作
-     * @param loginVo
+     * @param loginParam
      * @param request
      * @param response
      */
-    public void doLogin(LoginVo loginVo, HttpServletRequest request, HttpServletResponse response){
-        String username=loginVo.getUsername();
-        String password = loginVo.getPassword();
+    public void doLogin(LoginParam loginParam, HttpServletRequest request, HttpServletResponse response){
+        String username= loginParam.getUsername();
+        String password = loginParam.getPassword();
         SysUser user = findUserByMailOrPhone(username);
         if (user==null){
             throw new GlobalException(CodeMsg.USER_NOT_EXIST);

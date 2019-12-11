@@ -29,4 +29,12 @@ public class RouterController {
     public String acl(){
         return "acl";
     }
+
+
+    @GetMapping("/role")
+    @NeedLogin
+    public String role(){
+        return "role";
+    }
+
 }

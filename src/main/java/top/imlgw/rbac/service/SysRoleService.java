@@ -8,7 +8,7 @@ import top.imlgw.rbac.exception.GlobalException;
 import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.utils.IpUtil;
 import top.imlgw.rbac.utils.RequestContext;
-import top.imlgw.rbac.vo.RoleVo;
+import top.imlgw.rbac.vo.RoleParam;
 import java.util.Date;
 import java.util.List;
 
@@ -26,15 +26,15 @@ public class SysRoleService {
         return sysRoleMapper.getAllRole();
     }
 
-    public void save(RoleVo roleVo) {
-        if (checkExist(roleVo.getName(), roleVo.getId())) {
+    public void save(RoleParam roleParam) {
+        if (checkExist(roleParam.getName(), roleParam.getId())) {
             throw new GlobalException(CodeMsg.ROLE_REPEAT);
         }
         SysRole sysRole = new SysRole(
-                roleVo.getName(),
-                roleVo.getStatus(),
-                roleVo.getType(),
-                roleVo.getRemark());
+                roleParam.getName(),
+                roleParam.getStatus(),
+                roleParam.getType(),
+                roleParam.getRemark());
         //sysRole.setOperator(RequestContext.getCurrentSysUser().getUsername());
         sysRole.setOperator("test");
         sysRole.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
@@ -42,17 +42,17 @@ public class SysRoleService {
         sysRoleMapper.insertSelective(sysRole);
     }
 
-    public void update(RoleVo roleVo) {
-        if (checkExist(roleVo.getName(), roleVo.getId())) {
+    public void update(RoleParam roleParam) {
+        if (checkExist(roleParam.getName(), roleParam.getId())) {
             throw new GlobalException(CodeMsg.ROLE_NOT_EXIST);
         }
-        SysRole oldSysRole= sysRoleMapper.selectByPrimaryKey(roleVo.getId());
+        SysRole oldSysRole= sysRoleMapper.selectByPrimaryKey(roleParam.getId());
         SysRole newSysRole = new SysRole(
-                roleVo.getId(),
-                roleVo.getName(),
-                roleVo.getStatus(),
-                roleVo.getType(),
-                roleVo.getRemark());
+                roleParam.getId(),
+                roleParam.getName(),
+                roleParam.getStatus(),
+                roleParam.getType(),
+                roleParam.getRemark());
         //newSysRole.setOperator(RequestContext.getCurrentSysUser().getUsername());
         newSysRole.setOperator("test");
         newSysRole.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));

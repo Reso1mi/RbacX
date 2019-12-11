@@ -11,7 +11,7 @@ import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.utils.IpUtil;
 import top.imlgw.rbac.utils.LevelUtil;
 import top.imlgw.rbac.utils.RequestContext;
-import top.imlgw.rbac.vo.AclModuleVo;
+import top.imlgw.rbac.vo.AclModuleParam;
 
 import java.util.Date;
 import java.util.List;
@@ -26,16 +26,16 @@ public class SysAclModuleService {
     @Autowired
     private SysAclModuleMapper sysAclModuleMapper;
 
-    public void save(AclModuleVo aclModuleVo) {
-        if (isExist(aclModuleVo.getParentId(), aclModuleVo.getName(),aclModuleVo.getSeq(),aclModuleVo.getId())) {
+    public void save(AclModuleParam aclModuleParam) {
+        if (isExist(aclModuleParam.getParentId(), aclModuleParam.getName(), aclModuleParam.getSeq(), aclModuleParam.getId())) {
             throw new GlobalException(CodeMsg.ACLMODULE_REPEAT);
         }
-        SysAclModule sysAclModule=new SysAclModule(aclModuleVo.getName(),aclModuleVo.getParentId(),aclModuleVo.getSeq(),aclModuleVo.getRemark());
+        SysAclModule sysAclModule=new SysAclModule(aclModuleParam.getName(), aclModuleParam.getParentId(), aclModuleParam.getSeq(), aclModuleParam.getRemark());
         //设置层级level类似 0.1.2.3这种
         //11.25 fix a bug
         //又改回来了,是自己想错了
-        sysAclModule.setLevel(LevelUtil.caculateLevel(getLevel(aclModuleVo.getParentId()),aclModuleVo.getParentId()));
         sysAclModule.setOperator(RequestContext.getCurrentSysUser().getUsername());
+        sysAclModule.setLevel(LevelUtil.caculateLevel(getLevel(aclModuleParam.getParentId()), aclModuleParam.getParentId()));
         //sysAclModule.setOperator("test");
         //todo
         sysAclModule.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
@@ -44,25 +44,25 @@ public class SysAclModuleService {
         sysAclModuleMapper.insertSelective(sysAclModule);
     }
 
-    public void update(AclModuleVo aclModuleVo) {
-        if (isExist(aclModuleVo.getParentId(), aclModuleVo.getName(),aclModuleVo.getSeq(),aclModuleVo.getId())) {
+    public void update(AclModuleParam aclModuleParam) {
+        if (isExist(aclModuleParam.getParentId(), aclModuleParam.getName(), aclModuleParam.getSeq(), aclModuleParam.getId())) {
             throw new GlobalException(CodeMsg.ACLMODULE_REPEAT);
         }
-        SysAclModule oldSysAclModule= sysAclModuleMapper.selectByPrimaryKey(aclModuleVo.getId());
+        SysAclModule oldSysAclModule= sysAclModuleMapper.selectByPrimaryKey(aclModuleParam.getId());
         if (oldSysAclModule==null){
             throw new GlobalException(CodeMsg.ACLMODULE_NOT_EXIST);
         }
         SysAclModule newSysAclModule=new SysAclModule(
-                aclModuleVo.getId(),
-                aclModuleVo.getName(),
-                aclModuleVo.getParentId(),
-                aclModuleVo.getSeq(),
-                aclModuleVo.getStatus(),
-                aclModuleVo.getRemark()
+                aclModuleParam.getId(),
+                aclModuleParam.getName(),
+                aclModuleParam.getParentId(),
+                aclModuleParam.getSeq(),
+                aclModuleParam.getStatus(),
+                aclModuleParam.getRemark()
         );
         //设置层级level类似 0.1.2.3. 这种
         //0.1.2.  -->  0.3.4.
-        newSysAclModule.setLevel(LevelUtil.caculateLevel(getLevel(aclModuleVo.getParentId()),aclModuleVo.getParentId()));
+        newSysAclModule.setLevel(LevelUtil.caculateLevel(getLevel(aclModuleParam.getParentId()), aclModuleParam.getParentId()));
         newSysAclModule.setOperator(RequestContext.getCurrentSysUser().getUsername());
         newSysAclModule.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
         newSysAclModule.setOperateTime(new Date());

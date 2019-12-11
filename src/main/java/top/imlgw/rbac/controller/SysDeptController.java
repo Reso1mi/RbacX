@@ -1,7 +1,6 @@
 package top.imlgw.rbac.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.imlgw.rbac.result.CodeMsg;
@@ -9,8 +8,8 @@ import top.imlgw.rbac.result.Result;
 import top.imlgw.rbac.service.SysDeptService;
 import top.imlgw.rbac.service.SysTreeService;
 import top.imlgw.rbac.validator.NeedLogin;
-import top.imlgw.rbac.vo.DeptLevelVo;
-import top.imlgw.rbac.vo.DeptVo;
+import top.imlgw.rbac.dto.DeptLevelDto;
+import top.imlgw.rbac.vo.DeptParam;
 
 import java.util.List;
 
@@ -31,14 +30,14 @@ public class SysDeptController {
     @GetMapping("/tree")
     @NeedLogin
     public Result treeDept(){
-        List<DeptLevelVo> deptTree = sysTreeService.createDeptTree();
+        List<DeptLevelDto> deptTree = sysTreeService.createDeptTree();
         return Result.success(deptTree);
     }
 
     @PostMapping("/save")
     @NeedLogin
-    public Result saveDept(@Validated @RequestBody DeptVo deptVo){
-        sysDeptService.save(deptVo);
+    public Result saveDept(@Validated @RequestBody DeptParam deptParam){
+        sysDeptService.save(deptParam);
         return Result.success(CodeMsg.SUCCESS);
     }
 
@@ -54,9 +53,9 @@ public class SysDeptController {
 
     @PostMapping("/update")
     @NeedLogin
-    public Result updateDept(@Validated @RequestBody DeptVo deptVo){
-        sysDeptService.update(deptVo);
-        System.out.println(deptVo);
+    public Result updateDept(@Validated @RequestBody DeptParam deptParam){
+        sysDeptService.update(deptParam);
+        System.out.println(deptParam);
         return Result.success(CodeMsg.SUCCESS);
     }
 }

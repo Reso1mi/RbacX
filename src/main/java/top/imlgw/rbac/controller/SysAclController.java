@@ -3,15 +3,14 @@ package top.imlgw.rbac.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import top.imlgw.rbac.bean.PageQuery;
+import top.imlgw.rbac.dto.PageQuery;
 import top.imlgw.rbac.entity.SysAcl;
-import top.imlgw.rbac.entity.SysUser;
 import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.PageResult;
 import top.imlgw.rbac.result.Result;
 import top.imlgw.rbac.service.SysAclService;
 import top.imlgw.rbac.validator.NeedLogin;
-import top.imlgw.rbac.vo.AclVo;
+import top.imlgw.rbac.vo.AclParam;
 
 import javax.validation.constraints.NotNull;
 
@@ -27,15 +26,15 @@ public class SysAclController {
 
     @PostMapping("/save")
     @NeedLogin
-    public Result saveAclModule(@Validated @RequestBody AclVo aclVo) {
-        sysAclService.save(aclVo);
+    public Result saveAclModule(@Validated @RequestBody AclParam aclParam) {
+        sysAclService.save(aclParam);
         return Result.success(CodeMsg.SUCCESS);
     }
 
     @PostMapping("/update")
     @NeedLogin
-    public Result updateAclModule(@Validated @RequestBody AclVo aclVo) {
-        sysAclService.update(aclVo);
+    public Result updateAclModule(@Validated @RequestBody AclParam aclParam) {
+        sysAclService.update(aclParam);
         return Result.success(CodeMsg.SUCCESS);
     }
 

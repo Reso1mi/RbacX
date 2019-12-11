@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @ToString
-public class LoginVo {
+public class LoginParam {
     @NotBlank(message = "用户名不能为空！")
     private String username;
     @NotNull(message = "密码不能为空！")

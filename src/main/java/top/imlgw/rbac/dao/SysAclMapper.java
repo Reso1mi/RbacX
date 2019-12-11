@@ -2,7 +2,7 @@ package top.imlgw.rbac.dao;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
-import top.imlgw.rbac.bean.PageQuery;
+import top.imlgw.rbac.dto.PageQuery;
 import top.imlgw.rbac.entity.SysAcl;
 
 import java.util.List;
@@ -27,4 +27,8 @@ public interface SysAclMapper {
 
     int countByNameAndAclModuleId(@Param("aclModuleId") Integer aclModuleId,@Param("name") String name,
                                   @Param("seq") Integer seq, @Param("aclId") Integer aclId);
+
+    List<SysAcl> getAllAcl();
+
+    List<SysAcl> getAclByIds(@Param("aclIdList") List<Integer> aclIdList);
 }

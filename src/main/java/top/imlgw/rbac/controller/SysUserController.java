@@ -9,8 +9,8 @@ import top.imlgw.rbac.result.PageResult;
 import top.imlgw.rbac.result.Result;
 import top.imlgw.rbac.service.SysUserService;
 import top.imlgw.rbac.validator.NeedLogin;
-import top.imlgw.rbac.bean.PageQuery;
-import top.imlgw.rbac.vo.UserVo;
+import top.imlgw.rbac.dto.PageQuery;
+import top.imlgw.rbac.vo.UserParam;
 
 import javax.validation.constraints.NotNull;
 
@@ -28,16 +28,16 @@ public class SysUserController {
 
     @PostMapping("/save")
     @NeedLogin
-    public Result saveUser(@Validated @RequestBody UserVo userVo){
-        sysUserService.save(userVo);
+    public Result saveUser(@Validated @RequestBody UserParam userParam){
+        sysUserService.save(userParam);
         return Result.success(CodeMsg.SUCCESS);
     }
 
 
     @PostMapping("/update")
     @NeedLogin
-    public Result updateUser(@Validated @RequestBody UserVo userVo){
-        sysUserService.update(userVo);
+    public Result updateUser(@Validated @RequestBody UserParam userParam){
+        sysUserService.update(userParam);
         return Result.success(CodeMsg.SUCCESS);
     }
 

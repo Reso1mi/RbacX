@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @ToString
-public class AclModuleVo {
+public class AclModuleParam {
 
     private Integer id;
 

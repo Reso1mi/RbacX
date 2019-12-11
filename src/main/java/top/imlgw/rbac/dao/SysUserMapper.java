@@ -3,7 +3,7 @@ package top.imlgw.rbac.dao;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import top.imlgw.rbac.entity.SysUser;
-import top.imlgw.rbac.bean.PageQuery;
+import top.imlgw.rbac.dto.PageQuery;
 
 import java.util.List;
 

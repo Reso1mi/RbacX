@@ -7,7 +7,7 @@ import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.Result;
 import top.imlgw.rbac.service.SysUserService;
 import top.imlgw.rbac.validator.NeedLogin;
-import top.imlgw.rbac.vo.LoginVo;
+import top.imlgw.rbac.vo.LoginParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,9 +24,9 @@ public class LoginController {
     private SysUserService sysUserService;
 
     @PostMapping("/login")
-    public Result login(@Validated @RequestBody LoginVo loginVo, HttpServletRequest request, HttpServletResponse response){
-        System.err.println(loginVo);
-        sysUserService.doLogin(loginVo,request,response);
+    public Result login(@Validated @RequestBody LoginParam loginParam, HttpServletRequest request, HttpServletResponse response){
+        System.err.println(loginParam);
+        sysUserService.doLogin(loginParam,request,response);
         return Result.success(CodeMsg.SUCCESS);
     }
 

@@ -2,7 +2,7 @@ package top.imlgw.rbac.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.imlgw.rbac.bean.PageQuery;
+import top.imlgw.rbac.dto.PageQuery;
 import top.imlgw.rbac.dao.SysAclMapper;
 import top.imlgw.rbac.entity.SysAcl;
 import top.imlgw.rbac.exception.GlobalException;
@@ -10,7 +10,7 @@ import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.PageResult;
 import top.imlgw.rbac.utils.IpUtil;
 import top.imlgw.rbac.utils.RequestContext;
-import top.imlgw.rbac.vo.AclVo;
+import top.imlgw.rbac.vo.AclParam;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -27,18 +27,18 @@ public class SysAclService {
     @Autowired
     private SysAclMapper sysAclMapper;
 
-    public void save(AclVo aclVo){
-        if (checkExist(aclVo.getAclModuleId(),aclVo.getName(),aclVo.getSeq(),aclVo.getId())){
+    public void save(AclParam aclParam){
+        if (checkExist(aclParam.getAclModuleId(), aclParam.getName(), aclParam.getSeq(), aclParam.getId())){
             throw new GlobalException(CodeMsg.ACL_REPEAT);
         }
         SysAcl sysAcl=new SysAcl(
-                aclVo.getName(),
-                aclVo.getAclModuleId(),
-                aclVo.getUrl(),
-                aclVo.getType(),
-                aclVo.getStatus(),
-                aclVo.getSeq(),
-                aclVo.getRemark());
+                aclParam.getName(),
+                aclParam.getAclModuleId(),
+                aclParam.getUrl(),
+                aclParam.getType(),
+                aclParam.getStatus(),
+                aclParam.getSeq(),
+                aclParam.getRemark());
         sysAcl.setCode(generateAclCode());
         sysAcl.setOperator(RequestContext.getCurrentSysUser().getUsername());
         sysAcl.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
@@ -46,24 +46,24 @@ public class SysAclService {
         sysAclMapper.insertSelective(sysAcl);
     }
 
-    public void update(AclVo aclVo){
-        if (checkExist(aclVo.getAclModuleId(),aclVo.getName(),aclVo.getSeq(),aclVo.getId())){
+    public void update(AclParam aclParam){
+        if (checkExist(aclParam.getAclModuleId(), aclParam.getName(), aclParam.getSeq(), aclParam.getId())){
             throw new GlobalException(CodeMsg.ACL_REPEAT);
         }
-        SysAcl oldSysAcl = sysAclMapper.selectByPrimaryKey(aclVo.getId());
+        SysAcl oldSysAcl = sysAclMapper.selectByPrimaryKey(aclParam.getId());
         //todo
         /*if (oldSysAcl ==null){
             throw new GlobalException(CodeMsg.ACL_NOT_EXIST);
         }*/
         SysAcl newSysAcl=new SysAcl(
-                aclVo.getId(),
-                aclVo.getName(),
-                aclVo.getAclModuleId(),
-                aclVo.getUrl(),
-                aclVo.getType(),
-                aclVo.getStatus(),
-                aclVo.getSeq(),
-                aclVo.getRemark());
+                aclParam.getId(),
+                aclParam.getName(),
+                aclParam.getAclModuleId(),
+                aclParam.getUrl(),
+                aclParam.getType(),
+                aclParam.getStatus(),
+                aclParam.getSeq(),
+                aclParam.getRemark());
         newSysAcl.setOperator(RequestContext.getCurrentSysUser().getUsername());
         newSysAcl.setOperateIp(IpUtil.getRemoteIp(RequestContext.getCurrentRequest()));
         newSysAcl.setOperateTime(new Date());

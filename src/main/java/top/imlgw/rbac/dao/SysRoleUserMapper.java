@@ -1,7 +1,12 @@
 package top.imlgw.rbac.dao;
 
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 import top.imlgw.rbac.entity.SysRoleUser;
 
+import java.util.List;
+
+@Component
 public interface SysRoleUserMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +19,6 @@ public interface SysRoleUserMapper {
     int updateByPrimaryKeySelective(SysRoleUser record);
 
     int updateByPrimaryKey(SysRoleUser record);
+
+    List<Integer> getRoleIdListByUserId(@Param("userId") Integer userId);
 }

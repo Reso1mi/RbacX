@@ -15,6 +15,14 @@ public class SysRoleAcl {
 
     private String operateIp;
 
+    public SysRoleAcl(Integer roleId, Integer aclId, String operator, String operateIp, Date operateTime) {
+        this.roleId=roleId;
+        this.aclId=aclId;
+        this.operator=operator;
+        this.operateIp=operateIp;
+        this.operateTime=operateTime;
+    }
+
     public Integer getId() {
         return id;
     }

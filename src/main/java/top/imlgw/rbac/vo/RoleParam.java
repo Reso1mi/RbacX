@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @ToString
-public class RoleVo {
+public class RoleParam {
     private Integer id;
 
     @NotBlank(message = "角色名称不可以为空")
