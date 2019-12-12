@@ -15,6 +15,17 @@ public class SysRoleUser {
 
     private String operateIp;
 
+    public SysRoleUser() {
+    }
+
+    public SysRoleUser( Integer roleId, Integer userId, String operator, Date operateTime, String operateIp) {
+        this.roleId = roleId;
+        this.userId = userId;
+        this.operator = operator;
+        this.operateTime = operateTime;
+        this.operateIp = operateIp;
+    }
+
     public Integer getId() {
         return id;
     }

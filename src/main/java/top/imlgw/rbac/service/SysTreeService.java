@@ -168,7 +168,7 @@ public class SysTreeService {
      * @param roleId
      * @return 某个角色对应的权限树
      */
-    public List<AclModuleLevelDto> roleTree(int roleId) {
+    public List<AclModuleLevelDto> roleAclTree(int roleId) {
         // 1、当前用户已分配的权限点
         List<SysAcl> userAclList = sysCoreService.getCurrentUserAclList();
         // 2、当前角色分配的权限点
@@ -210,11 +210,15 @@ public class SysTreeService {
                 dtoList.add(acl);
             }
         }
-        dfsSetAclsWithOrder(aclModuleLevelList, moduleIdAclMap);
+        dfsCreateRoleAcls(aclModuleLevelList, moduleIdAclMap);
         return aclModuleLevelList;
     }
 
-    public void dfsSetAclsWithOrder(List<AclModuleLevelDto> aclModuleLevelList, HashMap<Integer, List<AclDto>>
+    /**
+     * @param aclModuleLevelList
+     * @param moduleIdAclMap dfs构建角色对应的权限树
+     */
+    public void dfsCreateRoleAcls(List<AclModuleLevelDto> aclModuleLevelList, HashMap<Integer, List<AclDto>>
             moduleIdAclMap) {
         if (CollectionUtils.isEmpty(aclModuleLevelList)) {
             return;
@@ -225,7 +229,32 @@ public class SysTreeService {
                 Collections.sort(aclDtoList, Comparator.comparingInt(AclDto::getSeq));
                 dto.setAclList(aclDtoList);
             }
-            dfsSetAclsWithOrder(dto.getAclModuleList(), moduleIdAclMap);
+            dfsCreateRoleAcls(dto.getAclModuleList(), moduleIdAclMap);
         }
+    }
+
+
+    /**
+     * @param userId
+     * @return 用户权限树结构
+     */
+    public List<AclModuleLevelDto> userAclTree(Integer userId) {
+        // 1、当前用户已分配的权限点
+        List<SysAcl> userAclList = sysCoreService.getUserAclList(userId);
+        // 2、前台所需要的权限点Dto(带有额外属性的)
+        List<AclDto> aclDtoList = new ArrayList<>();
+        // java8
+        Set<Integer> userAclIdSet = userAclList.stream().map(sysAcl -> sysAcl.getId()).collect(Collectors.toSet());
+        // 3、所有权限,用来和上面的进行对比
+        List<SysAcl> allAclList = sysAclMapper.getAllAcl();
+        //allAclList.stream().map(AclDto::adapt).filter(aclDto -> userAclIdSet.contains(aclDto.getId())).forEach();
+        for (SysAcl acl : allAclList) {
+            AclDto dto = AclDto.adapt(acl);
+            if (userAclIdSet.contains(acl.getId())) {
+                dto.setChecked(true);//是否默认选中
+            }
+            aclDtoList.add(dto);
+        }
+        return aclListToTree(aclDtoList);
     }
 }

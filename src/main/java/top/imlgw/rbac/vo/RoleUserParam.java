@@ -9,15 +9,15 @@ import java.util.List;
 
 /**
  * @author imlgw.top
- * @date 2019/12/12 0:17
+ * @date 2019/12/12 16:02
  */
 @Getter
 @Setter
 @ToString
-public class RoleAclParam {
+public class RoleUserParam {
 
     @NotNull(message = "角色ID不能为空")
     private Integer roleId;
 
-    private List<Integer> aclIds;
+    private List<Integer> userIds;
 }

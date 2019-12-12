@@ -31,7 +31,7 @@ public class SysCoreService {
 
 
     /**
-     * @return 获取当前用户的权限列表(根据角色查询)
+     * @return 获取当前用户的权限点(根据角色查询)
      */
     public List<SysAcl> getCurrentUserAclList() {
         int userId=RequestContext.getCurrentSysUser().getId();
@@ -53,14 +53,14 @@ public class SysCoreService {
 
     /**
      * @param userId
-     * @return 获取某个用户的权限列表
+     * @return 获取某个用户的权限点
      */
     public List<SysAcl> getUserAclList(int userId){
         List<Integer> roleIdList = sysRoleUserMapper.getRoleIdListByUserId(userId);
         if (CollectionUtils.isEmpty(roleIdList)){
             return Collections.EMPTY_LIST;
         }
-        //根据上面角色ids查询对应的acls
+        //根据上面获取到的用户的角色ids 查询对应的acls
         List<Integer> aclIdList = sysRoleAclMapper.getAclIdListByRoleIdList(roleIdList);
         if (CollectionUtils.isEmpty(aclIdList)){
             return Collections.EMPTY_LIST;

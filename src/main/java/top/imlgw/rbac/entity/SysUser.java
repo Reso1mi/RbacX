@@ -28,6 +28,9 @@ public class SysUser {
     public SysUser() {
 
     }
+    public SysUser(Integer id) {
+
+    }
 
     public SysUser(String username, String telephone, String mail, String password, Integer deptId, Integer status, String remark) {
         this.username = username;

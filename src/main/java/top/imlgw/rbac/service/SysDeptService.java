@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import top.imlgw.rbac.dao.SysDeptMapper;
+import top.imlgw.rbac.dao.SysUserMapper;
 import top.imlgw.rbac.entity.SysDept;
 import top.imlgw.rbac.exception.GlobalException;
 import top.imlgw.rbac.result.CodeMsg;
@@ -12,10 +13,8 @@ import top.imlgw.rbac.utils.IpUtil;
 import top.imlgw.rbac.utils.LevelUtil;
 import top.imlgw.rbac.utils.RequestContext;
 import top.imlgw.rbac.vo.DeptParam;
-
 import java.util.Date;
 import java.util.List;
-
 
 /**
  * @author imlgw.top
@@ -26,6 +25,9 @@ public class SysDeptService {
 
     @Autowired
     private SysDeptMapper sysDeptMapper;
+
+    @Autowired
+    private SysUserMapper sysUserMapper;
 
     public void save(DeptParam deptParam) {
         if (isExist(deptParam.getParentId(), deptParam.getName(), deptParam.getSeq(), deptParam.getId())) {
@@ -109,13 +111,21 @@ public class SysDeptService {
         sysDeptMapper.updateByPrimaryKey(newSysDept);
     }
 
-    //todo
-    public void delete(Integer deptVo) {
-
-    }
-
-    //todo
-    private  void deleteChild(List<DeptParam> deptList){
-
+    /**
+     * 删除部门,前提是部门下没有子部门,且部门下没有用户
+     * @param deptId
+     */
+    public void delete(Integer deptId) {
+        SysDept sysDept = sysDeptMapper.selectByPrimaryKey(deptId);
+        if (sysDept==null){
+            throw new GlobalException(CodeMsg.DEPT_NOT_EXIST);
+        }
+        if (sysDeptMapper.countChildDept(deptId)>0){
+            throw new GlobalException(CodeMsg.DEPT_CHILDREN_EXIST);
+        }
+        if (sysUserMapper.countByDeptId(deptId)>0){
+            throw new GlobalException(CodeMsg.DEPT_USER_EXIST);
+        }
+        sysDeptMapper.deleteByPrimaryKey(deptId);
     }
 }

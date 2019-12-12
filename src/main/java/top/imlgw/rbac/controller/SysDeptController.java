@@ -10,7 +10,6 @@ import top.imlgw.rbac.service.SysTreeService;
 import top.imlgw.rbac.validator.NeedLogin;
 import top.imlgw.rbac.dto.DeptLevelDto;
 import top.imlgw.rbac.vo.DeptParam;
-
 import java.util.List;
 
 /**
@@ -42,12 +41,10 @@ public class SysDeptController {
     }
 
 
-    //todo
     @PostMapping("/delete")
     @NeedLogin
-    public Result deleteDept(Integer id){
-        //todo 删除和用户模块相关,等用户模块开发完成再实现
-        sysDeptService.delete(id);
+    public Result deleteDept(@RequestParam("deptId") Integer deptId){
+        sysDeptService.delete(deptId);
         return Result.success(CodeMsg.SUCCESS);
     }
 

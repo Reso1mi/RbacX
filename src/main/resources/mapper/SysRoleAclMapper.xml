@@ -112,9 +112,9 @@
       </foreach>
   </select>
 
-    <select id="deleteRoleAclByRoleId" parameterType="int" >
+    <delete id="deleteRoleAclByRoleId" parameterType="int" >
         delete
         from sys_role_acl
         where role_id=#{roleId}
-    </select>
+    </delete>
 </mapper>

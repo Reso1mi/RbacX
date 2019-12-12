@@ -16,6 +16,8 @@ public class CodeMsg {
     //部门相关
     public static final CodeMsg DEPT_REPEAT = new CodeMsg(500201, "同一层级下存在相同名称的部门");
     public static final CodeMsg DEPT_NOT_EXIST = new CodeMsg(500202, "部门不存在");
+    public static final CodeMsg DEPT_CHILDREN_EXIST= new CodeMsg(500203, "待删除的部门下存在子部门");
+    public static final CodeMsg DEPT_USER_EXIST= new CodeMsg(500203, "待删除的部门下存在用户");
 
     //权限模块相关
     public static final CodeMsg ACLMODULE_REPEAT = new CodeMsg(500301,"同一层级下存在相同的权限模块！");

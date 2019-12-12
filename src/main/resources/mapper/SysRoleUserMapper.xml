@@ -115,5 +115,9 @@
     from sys_role_user
     where role_id = #{roleId}
   </select>
-
+    <delete id="deleteRoleUserByRoleId" parameterType="int">
+        delete
+        from sys_role_user
+        where role_id=#{roleId}
+    </delete>
 </mapper>

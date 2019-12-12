@@ -30,4 +30,9 @@ public interface SysUserMapper {
     int countByMail(@Param("mail") String mail,@Param("id") Integer id);
 
     int countByTelephone(@Param("telephone") String telephone,@Param("id") Integer id);
+
+    List<SysUser> getUsersByIds(@Param("userIds") List<Integer> userIds);
+
+    List<SysUser> getAllUser();
+
 }

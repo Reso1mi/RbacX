@@ -317,13 +317,16 @@
         function getTreeSelectedId() {
             var treeObj = $.fn.zTree.getZTreeObj("roleAclTree");
             var nodes = treeObj.getCheckedNodes(true);
-            var v = "";
+            //var v="";
+            var ids=[];
             for(var i = 0; i < nodes.length; i++) {
+                console.log("testV:"+nodes[i].id)
                 if(nodes[i].id.startsWith(aclPrefix)) {
-                    v += "," + nodes[i].dataId;
+                    //v += "," + nodes[i].dataId;
+                    ids.push(nodes[i].dataId);
                 }
             }
-            return v.length > 0 ? v.substring(1): v;
+            return ids;
         }
 
         function renderRoleTree(aclModuleList) {
@@ -346,7 +349,7 @@
                                 id: aclPrefix + acl.id,
                                 pId: modulePrefix + acl.aclModuleId,
                                 name: acl.name + ((acl.type == 1) ? '(菜单)' : ''),
-                                chkDisabled: !acl.hasAcl,
+                                //chkDisabled: !acl.hasAcl,
                                 checked: acl.checked,
                                 dataId: acl.id
                             });
@@ -411,6 +414,7 @@
                 showMessage("保存角色与权限点的关系", "请现在左侧选择需要操作的角色", false);
                 return;
             }
+            console.log(getTreeSelectedId())
             $.ajax({
                 url: "/system/role/changeAcl",
                 data: JSON.stringify({
@@ -465,21 +469,16 @@
 
         function loadRoleUser(selectedRoleId) {
             $.ajax({
-                url: "/sys/role/users.json",
-                data: {
-                    roleId: selectedRoleId
-                },
-                type: 'POST',
+                url: "/system/role/user/"+selectedRoleId,
                 success: function (result) {
-                    if (result.ret) {
+                    if (result.code==0) {
                         var renderedSelect = Mustache.render(selectedUsersTemplate, {userList: result.data.selected});
                         var renderedUnSelect = Mustache.render(unSelectedUsersTemplate, {userList: result.data.unselected});
                         $("#roleUserList").html(renderedSelect + renderedUnSelect);
-
                         if(!hasMultiSelect) {
                             $('select[name="roleUserList"]').bootstrapDualListbox({
                                 showFilterInputs: false,
-                                moveOnSelect: false,
+                                moveOnSelect: true,
                                 infoText: false
                             });
                             hasMultiSelect = true;
@@ -499,15 +498,17 @@
                 showMessage("保存角色与用户的关系", "请现在左侧选择需要操作的角色", false);
                 return;
             }
+            console.log($("#roleUserList").val())
             $.ajax({
-                url: "/sys/role/changeUsers.json",
-                data: {
+                url: "/system/role/changeUser",
+                data: JSON.stringify({
                     roleId: lastRoleId,
-                    userIds: $("#roleUserList").val() ? $("#roleUserList").val().join(",") : ''
-                },
+                    userIds: $("#roleUserList").val()
+                }),
                 type: 'POST',
+                contentType: "application/json",
                 success: function (result) {
-                    if (result.ret) {
+                    if (result.code==0) {
                         showMessage("保存角色与用户的关系", "操作成功", false);
                     } else {
                         showMessage("保存角色与用户的关系", result.msg, false);

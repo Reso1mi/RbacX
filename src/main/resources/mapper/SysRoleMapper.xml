@@ -141,4 +141,12 @@
         </if>
     </select>
 
+    <select id="getRoleByUserIds" resultMap="BaseResultMap" parameterType="map">
+        select <include refid="Base_Column_List"/>
+        from sys_role
+        where id in
+        <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+            #{roleId}
+        </foreach>
+    </select>
 </mapper>

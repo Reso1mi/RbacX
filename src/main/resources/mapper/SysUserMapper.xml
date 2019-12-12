@@ -18,6 +18,10 @@
     id, username, telephone, mail, password, dept_id, status, remark, operator, operate_time, 
     operate_ip
   </sql>
+  <sql id="Column_without_password" >
+    id, username, telephone, mail, dept_id, status, remark, operator, operate_time,
+    operate_ip
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -33,13 +37,6 @@
         ORDER BY username ASC
         LIMIT #{page.offset}, #{page.pageSize}
     </select>
-
-  <select id="countByDeptId" parameterType="int" resultType="int">
-    SELECT count(1)
-    FROM sys_user
-    WHERE dept_id = #{deptId}
-  </select>
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_user
     where id = #{id,jdbcType=INTEGER}
@@ -204,4 +201,25 @@
             AND id!=#{id}
         </if>
     </select>
+
+    <select id="getUsersByIds" parameterType="map" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from sys_user
+        where id in 
+        <foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+    </select>
+
+    <select id="getAllUser" resultMap="BaseResultMap">
+        select <include refid="Column_without_password"/>
+        from sys_user
+    </select>
+
+    <select id="countByDeptId" resultType="int" parameterType="int">
+        select count(*)
+        from sys_user
+        where dept_id=#{deptId}
+    </select>
+
 </mapper>

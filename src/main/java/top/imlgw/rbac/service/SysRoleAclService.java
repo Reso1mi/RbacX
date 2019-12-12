@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.imlgw.rbac.dao.SysRoleAclMapper;
-import top.imlgw.rbac.entity.SysAcl;
 import top.imlgw.rbac.entity.SysRoleAcl;
 import top.imlgw.rbac.utils.IpUtil;
 import top.imlgw.rbac.utils.RequestContext;
-
 import java.util.*;
 
 /**
@@ -29,7 +27,7 @@ public class SysRoleAclService {
             Set<Integer> originAclIdSet = new HashSet(originAclIdList);
             Set<Integer> aclIdSet = new HashSet(aclIdList);
             originAclIdSet.removeAll(aclIdSet);
-            if (CollectionUtils.isEmpty(originAclIdSet)) {
+            if (CollectionUtils.isEmpty(originAclIdSet)) { //说明没有变化
                 return;
             }
         }
@@ -42,15 +40,10 @@ public class SysRoleAclService {
         if (CollectionUtils.isEmpty(aclIdList)){
             return;
         }
-        //重新插入,新的aclIdList
+        //重新构建新的roleAcl对应关系
         List<SysRoleAcl> roleAcls =new ArrayList<>();
-        /*aclIdList.stream()
-                .map(aclId->new SysRoleAcl(roleId,aclId, RequestContext.getCurrentSysUser().getUsername(),
-                        IpUtil.getRemoteIp(RequestContext.getCurrentRequest()),new Date()))
-                .forEach(roleAcls::add);*/
         aclIdList.stream()
-                .map(aclId->new SysRoleAcl(roleId,aclId, "test",
-                        IpUtil.getRemoteIp(RequestContext.getCurrentRequest()),new Date()))
+                .map(aclId->new SysRoleAcl(roleId,aclId, RequestContext.getCurrentSysUser().getUsername(), IpUtil.getRemoteIp(RequestContext.getCurrentRequest()),new Date()))
                 .forEach(roleAcls::add);
         //批量插入
         roleAcls.forEach(sysRoleAclMapper::insertSelective);

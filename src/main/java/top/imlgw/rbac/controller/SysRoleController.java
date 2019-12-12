@@ -1,22 +1,22 @@
 package top.imlgw.rbac.controller;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import top.imlgw.rbac.dao.SysRoleAclMapper;
+import top.imlgw.rbac.dao.SysUserMapper;
 import top.imlgw.rbac.dto.AclModuleLevelDto;
+import top.imlgw.rbac.entity.SysUser;
 import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.Result;
-import top.imlgw.rbac.service.SysRoleAclService;
-import top.imlgw.rbac.service.SysRoleService;
-import top.imlgw.rbac.service.SysTreeService;
+import top.imlgw.rbac.service.*;
 import top.imlgw.rbac.validator.NeedLogin;
 import top.imlgw.rbac.vo.RoleAclParam;
 import top.imlgw.rbac.vo.RoleParam;
+import top.imlgw.rbac.vo.RoleUserParam;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author imlgw.top
@@ -34,6 +34,12 @@ public class SysRoleController {
 
     @Autowired
     private SysRoleAclService sysRoleAclService;
+
+    @Autowired
+    private SysRoleUserService sysRoleUserService;
+
+    @Autowired
+    private SysUserService sysUserService;
 
     @PostMapping("/save")
     @NeedLogin
@@ -58,14 +64,42 @@ public class SysRoleController {
     @GetMapping("/tree/{roleId}")
     @NeedLogin
     public Result tree(@NotNull(message = "角色ID不能为空") @PathVariable("roleId") Integer roleId){
-        List<AclModuleLevelDto> dtoList = sysTreeService.roleTree(roleId);
+        List<AclModuleLevelDto> dtoList = sysTreeService.roleAclTree(roleId);
         return Result.success(dtoList);
     }
 
     @PostMapping("/changeAcl")
-    //@NeedLogin
+    @NeedLogin
     public Result changeAcls(@RequestBody RoleAclParam roleAclParam){
-        sysRoleAclService.changeRoleAcls(roleAclParam.getRoleId(),roleAclParam.getAclList());
+        System.out.println(roleAclParam);
+        sysRoleAclService.changeRoleAcls(roleAclParam.getRoleId(),roleAclParam.getAclIds());
         return Result.success(CodeMsg.SUCCESS);
+    }
+
+
+    @PostMapping("/changeUser")
+    @NeedLogin
+    public Result changeRoleUsers(@RequestBody RoleUserParam roleUserParam){
+        System.out.println(roleUserParam);
+        sysRoleUserService.changeRoleUsers(roleUserParam.getRoleId(),roleUserParam.getUserIds());
+        return Result.success(CodeMsg.SUCCESS);
+    }
+
+    @GetMapping("/user/{roleId}")
+    @NeedLogin
+    public Result users(@PathVariable("roleId") int roleId){
+        //根据角色ID查询出当前角色对应的所有的用户
+        List<SysUser> selectedUsers = sysRoleUserService.getUsersByRoleId(roleId);
+        //所有用户
+        List<SysUser> allUser = sysUserService.getAllUser();
+        List<SysUser> unselectedUsers = new ArrayList<>();
+        //将用户列表转为UserIdSet
+        Set<Integer> selectUser= selectedUsers.stream().map(SysUser::getId).collect(Collectors.toSet());
+        allUser.stream().filter(sysUser -> sysUser.getStatus()==1 && !selectUser.contains(sysUser.getId())).forEach(unselectedUsers::add);
+        //用map进行封装
+        Map<String,List<SysUser>> map=new HashMap<>();
+        map.put("selected",selectedUsers);
+        map.put("unselected",unselectedUsers);
+        return Result.success(map);
     }
 }
