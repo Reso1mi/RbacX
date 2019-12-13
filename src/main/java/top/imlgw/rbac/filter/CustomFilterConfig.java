@@ -11,7 +11,6 @@ import java.util.List;
  * @author imlgw.top
  * @date 2019/12/5 21:04
  */
-//@Configuration
 public class CustomFilterConfig {
 
     @Bean

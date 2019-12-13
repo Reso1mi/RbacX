@@ -44,7 +44,24 @@
 </head>
 <body class="no-skin" youdao="bind" style="background: white">
 <input id="gritter-light" checked="" type="checkbox" class="ace ace-switch ace-switch-5"/>
-
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                已分配的角色：<h5 style="color: red" id="roles"></h5>
+                已分配的用户：<h5 style="color: red" id="users"></h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="page-header">
     <h1>
         权限模块管理
@@ -583,13 +600,25 @@
                 e.stopPropagation();
                 var aclId = $(this).attr("data-id");
                 $.ajax({
-                    url: "/sys/acl/acls.json",
-                    data: {
-                        aclId: aclId
-                    },
+                    url: "/system/acl/role_user/"+aclId,
                     success: function (result) {
-                        if (result.ret) {
+                        if (result.code==0) {
                             console.log(result)
+                            $('#myModal').modal() //模态框
+                            $('#roles').text(function (){
+                                var s='';
+                                for (var i=0;i<result.data.roles.length;i++){
+                                    s+=result.data.roles[i].name+",";
+                                }
+                                return s.substring(0,s.length-1);
+                            });
+                            $('#users').text(function (){
+                                var s='';
+                                for (var i=0;i<result.data.users.length;i++){
+                                    s+=result.data.users[i].username+",";
+                                }
+                                return s.substring(0,s.length-1);
+                            });
                         } else {
                             showMessage("获取权限点分配的用户和角色", result.msg, false);
                         }

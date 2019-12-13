@@ -10,7 +10,7 @@ import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.PageResult;
 import top.imlgw.rbac.utils.IpUtil;
 import top.imlgw.rbac.utils.RequestContext;
-import top.imlgw.rbac.vo.AclParam;
+import top.imlgw.rbac.param.AclParam;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;

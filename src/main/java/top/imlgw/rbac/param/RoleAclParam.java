@@ -1,4 +1,4 @@
-package top.imlgw.rbac.vo;
+package top.imlgw.rbac.param;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,15 +9,15 @@ import java.util.List;
 
 /**
  * @author imlgw.top
- * @date 2019/12/12 16:02
+ * @date 2019/12/12 0:17
  */
 @Getter
 @Setter
 @ToString
-public class RoleUserParam {
+public class RoleAclParam {
 
     @NotNull(message = "角色ID不能为空")
     private Integer roleId;
 
-    private List<Integer> userIds;
+    private List<Integer> aclIds;
 }

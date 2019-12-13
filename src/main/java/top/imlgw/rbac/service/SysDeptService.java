@@ -12,7 +12,7 @@ import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.utils.IpUtil;
 import top.imlgw.rbac.utils.LevelUtil;
 import top.imlgw.rbac.utils.RequestContext;
-import top.imlgw.rbac.vo.DeptParam;
+import top.imlgw.rbac.param.DeptParam;
 import java.util.Date;
 import java.util.List;
 

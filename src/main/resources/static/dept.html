@@ -57,6 +57,7 @@
 </head>
 <body class="no-skin" youdao="bind" style="background: white">
 <input id="gritter-light" checked="" type="checkbox" class="ace ace-switch ace-switch-5"/>
+
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -580,6 +581,7 @@
                     success: function (result) {
                         if (result.code==0) {
                             $('#myModal').modal() //模态框
+                            $('#myModalLabel').text(userMap[userId].username);
                             renderRoleTree(result.data.userAclTree);
                         } else {
                             showMessage("获取用户权限数据", result.msg, false);
@@ -602,7 +604,6 @@
                         $("#deptSelectId").html(optionStr);
 
                         var targetUser = userMap[userId];
-                        console.log(userMap);
                         if (targetUser) {
                             $("#deptSelectId").val(targetUser.deptId);
                             $("#userName").val(targetUser.username);

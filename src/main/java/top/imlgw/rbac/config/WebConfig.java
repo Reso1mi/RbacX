@@ -6,6 +6,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import top.imlgw.rbac.argresolver.SysUserArgumentResolver;
+import top.imlgw.rbac.interceptor.AclInterceptor;
 import top.imlgw.rbac.interceptor.HttpInterceptor;
 import top.imlgw.rbac.interceptor.LoginIntercept;
 
@@ -24,6 +26,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Autowired
     private LoginIntercept loginIntercept;
+
+    @Autowired
+    private AclInterceptor aclInterceptor;
 
     @Autowired
     private SysUserArgumentResolver sysUserArgumentResolver;

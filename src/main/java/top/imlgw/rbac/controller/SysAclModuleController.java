@@ -9,7 +9,7 @@ import top.imlgw.rbac.service.SysAclModuleService;
 import top.imlgw.rbac.service.SysTreeService;
 import top.imlgw.rbac.validator.NeedLogin;
 import top.imlgw.rbac.dto.AclModuleLevelDto;
-import top.imlgw.rbac.vo.AclModuleParam;
+import top.imlgw.rbac.param.AclModuleParam;
 
 import java.util.List;
 

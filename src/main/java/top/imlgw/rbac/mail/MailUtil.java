@@ -4,11 +4,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
+import org.springframework.beans.factory.annotation.Autowired;
+import top.imlgw.rbac.config.MailConfig;
+
 import java.util.HashSet;
 
 
 @Slf4j
 public class MailUtil {
+
+    //todo
+    @Autowired
+    private MailConfig mailConfig;
 
     public static boolean send(Mail mail) {
         // TODO

@@ -4,9 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import top.imlgw.rbac.dao.SysRoleUserMapper;
-import top.imlgw.rbac.dao.SysUserMapper;
 import top.imlgw.rbac.entity.SysRoleUser;
-import top.imlgw.rbac.entity.SysUser;
 import top.imlgw.rbac.utils.IpUtil;
 import top.imlgw.rbac.utils.RequestContext;
 
@@ -21,17 +19,6 @@ public class SysRoleUserService {
 
     @Autowired
     private SysRoleUserMapper sysRoleUserMapper;
-
-    @Autowired
-    private SysUserMapper sysUserMapper;
-
-    public List<SysUser> getUsersByRoleId(Integer roleId){
-        List<Integer> userIdListByRoleId = sysRoleUserMapper.getUserIdListByRoleId(roleId);
-        if (CollectionUtils.isEmpty(userIdListByRoleId)){
-            return Collections.EMPTY_LIST;
-        }
-        return sysUserMapper.getUsersByIds(userIdListByRoleId);
-    }
 
     public void changeRoleUsers(Integer roleId, List<Integer> userIds) {
         //获取修改前角色下对应的用户

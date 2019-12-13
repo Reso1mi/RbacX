@@ -3,16 +3,15 @@ package top.imlgw.rbac.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import top.imlgw.rbac.dao.SysUserMapper;
 import top.imlgw.rbac.dto.AclModuleLevelDto;
 import top.imlgw.rbac.entity.SysUser;
 import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.Result;
 import top.imlgw.rbac.service.*;
 import top.imlgw.rbac.validator.NeedLogin;
-import top.imlgw.rbac.vo.RoleAclParam;
-import top.imlgw.rbac.vo.RoleParam;
-import top.imlgw.rbac.vo.RoleUserParam;
+import top.imlgw.rbac.param.RoleAclParam;
+import top.imlgw.rbac.param.RoleParam;
+import top.imlgw.rbac.param.RoleUserParam;
 
 import javax.validation.constraints.NotNull;
 import java.util.*;
@@ -40,6 +39,9 @@ public class SysRoleController {
 
     @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private SysCoreService sysCoreService;
 
     @PostMapping("/save")
     @NeedLogin
@@ -89,7 +91,7 @@ public class SysRoleController {
     @NeedLogin
     public Result users(@PathVariable("roleId") int roleId){
         //根据角色ID查询出当前角色对应的所有的用户
-        List<SysUser> selectedUsers = sysRoleUserService.getUsersByRoleId(roleId);
+        List<SysUser> selectedUsers = sysCoreService.getUserListByRoleId(roleId);
         //所有用户
         List<SysUser> allUser = sysUserService.getAllUser();
         List<SysUser> unselectedUsers = new ArrayList<>();

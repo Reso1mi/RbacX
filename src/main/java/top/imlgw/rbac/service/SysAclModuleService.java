@@ -11,7 +11,7 @@ import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.utils.IpUtil;
 import top.imlgw.rbac.utils.LevelUtil;
 import top.imlgw.rbac.utils.RequestContext;
-import top.imlgw.rbac.vo.AclModuleParam;
+import top.imlgw.rbac.param.AclModuleParam;
 
 import java.util.Date;
 import java.util.List;

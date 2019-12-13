@@ -9,7 +9,7 @@ import top.imlgw.rbac.service.SysDeptService;
 import top.imlgw.rbac.service.SysTreeService;
 import top.imlgw.rbac.validator.NeedLogin;
 import top.imlgw.rbac.dto.DeptLevelDto;
-import top.imlgw.rbac.vo.DeptParam;
+import top.imlgw.rbac.param.DeptParam;
 import java.util.List;
 
 /**

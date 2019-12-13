@@ -141,7 +141,7 @@
         </if>
     </select>
 
-    <select id="getRoleByUserIds" resultMap="BaseResultMap" parameterType="map">
+    <select id="getRoleByRoleIds" resultMap="BaseResultMap" parameterType="map">
         select <include refid="Base_Column_List"/>
         from sys_role
         where id in

@@ -2,17 +2,14 @@ package top.imlgw.rbac.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import top.imlgw.rbac.dao.SysRoleMapper;
-import top.imlgw.rbac.dao.SysRoleUserMapper;
 import top.imlgw.rbac.entity.SysRole;
 import top.imlgw.rbac.exception.GlobalException;
 import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.utils.IpUtil;
 import top.imlgw.rbac.utils.RequestContext;
-import top.imlgw.rbac.vo.RoleParam;
+import top.imlgw.rbac.param.RoleParam;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -25,9 +22,6 @@ public class SysRoleService {
 
     @Autowired
     private SysRoleMapper sysRoleMapper;
-
-    @Autowired
-    private SysRoleUserMapper sysRoleUserMapper;
 
     public List<SysRole> getAll() {
         return sysRoleMapper.getAllRole();
@@ -73,13 +67,4 @@ public class SysRoleService {
         return sysRoleMapper.countByName(name, id)> 0;
     }
 
-    public List<SysRole> getRoleListByUserId(Integer userId) {
-        //当前用户所有的角色
-        List<Integer> roleIds= sysRoleUserMapper.getRoleIdListByUserId(userId);
-        if (CollectionUtils.isEmpty(roleIds)) {
-            return Collections.EMPTY_LIST;
-        }
-        //根据角色ID获取角色实体类
-        return sysRoleMapper.getRoleByUserIds(roleIds);
-    }
 }

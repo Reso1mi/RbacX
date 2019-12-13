@@ -2,25 +2,18 @@ package top.imlgw.rbac.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import top.imlgw.rbac.dao.SysAclMapper;
-import top.imlgw.rbac.dao.SysRoleAclMapper;
-import top.imlgw.rbac.dao.SysRoleUserMapper;
 import top.imlgw.rbac.dao.SysUserMapper;
-import top.imlgw.rbac.entity.SysAcl;
 import top.imlgw.rbac.entity.SysUser;
 import top.imlgw.rbac.exception.GlobalException;
 import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.PageResult;
 import top.imlgw.rbac.utils.*;
-import top.imlgw.rbac.vo.LoginParam;
+import top.imlgw.rbac.param.LoginParam;
 import top.imlgw.rbac.dto.PageQuery;
-import top.imlgw.rbac.vo.UserParam;
+import top.imlgw.rbac.param.UserParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 

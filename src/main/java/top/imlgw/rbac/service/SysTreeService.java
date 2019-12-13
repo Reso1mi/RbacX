@@ -170,8 +170,8 @@ public class SysTreeService {
      */
     public List<AclModuleLevelDto> roleAclTree(int roleId) {
         // 1、当前用户已分配的权限点
-        List<SysAcl> userAclList = sysCoreService.getCurrentUserAclList();
         // 2、当前角色分配的权限点
+        List<SysAcl> userAclList = sysCoreService.getCurrentUserAclList();
         List<SysAcl> roleAclList = sysCoreService.getRoleAclList(roleId);
         // 3、当前系统所有权限点Dto(带有额外属性的)
         List<AclDto> aclDtoList = new ArrayList<>();
@@ -240,7 +240,7 @@ public class SysTreeService {
      */
     public List<AclModuleLevelDto> userAclTree(Integer userId) {
         // 1、当前用户已分配的权限点
-        List<SysAcl> userAclList = sysCoreService.getUserAclList(userId);
+        List<SysAcl> userAclList = sysCoreService.getAclListByUserId(userId);
         // 2、前台所需要的权限点Dto(带有额外属性的)
         List<AclDto> aclDtoList = new ArrayList<>();
         // java8

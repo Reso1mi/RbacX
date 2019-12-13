@@ -1,6 +1,9 @@
 package top.imlgw.rbac.filter;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import top.imlgw.rbac.entity.SysUser;
+import top.imlgw.rbac.service.SysCoreService;
 import top.imlgw.rbac.utils.CookieUtil;
 
 import javax.servlet.*;
@@ -19,6 +22,9 @@ import java.io.IOException;
  */
 @Deprecated
 public class LoginFilter implements Filter {
+
+    /*@Autowired 类似的操作是不行的
+    private  SysCoreService sysCoreService;*/
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

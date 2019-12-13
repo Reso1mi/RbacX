@@ -204,12 +204,17 @@
       from sys_acl
   </select>
 
-  <select id="getAclByIds" resultMap="BaseResultMap">
+  <select id="getAclListByIds" resultMap="BaseResultMap">
      select <include refid="Base_Column_List"/>
      from sys_acl
      where id in
       <foreach collection="aclIdList" item="aclId" open="(" close=")" separator=",">
           #{aclId}
       </foreach>
+  </select>
+  <select id="getAclListByUrl" resultMap="BaseResultMap">
+      select <include refid="Base_Colume_List"/>
+      from sys_acl
+      where url=#{url}
   </select>
 </mapper>

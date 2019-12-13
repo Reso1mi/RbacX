@@ -115,6 +115,16 @@
     from sys_role_user
     where role_id = #{roleId}
   </select>
+
+  <select id="getUserIdListByRoleIdList" parameterType="map" resultType="int">
+    select user_id
+    from sys_role_user
+    where role_id in 
+    <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+        #{roleId}
+    </foreach>
+  </select>
+
     <delete id="deleteRoleUserByRoleId" parameterType="int">
         delete
         from sys_role_user

@@ -7,7 +7,7 @@ import top.imlgw.rbac.result.CodeMsg;
 import top.imlgw.rbac.result.Result;
 import top.imlgw.rbac.service.SysUserService;
 import top.imlgw.rbac.validator.NeedLogin;
-import top.imlgw.rbac.vo.LoginParam;
+import top.imlgw.rbac.param.LoginParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

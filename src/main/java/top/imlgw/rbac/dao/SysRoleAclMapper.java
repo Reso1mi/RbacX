@@ -23,4 +23,6 @@ public interface SysRoleAclMapper {
     List<Integer> getAclIdListByRoleIdList(@Param("roleIdList") List<Integer> roleIdList);
 
     void deleteRoleAclByRoleId(@Param("roleId") Integer roleId);
+
+    List<Integer> getRoleIdListByAclId(@Param("aclId") Integer aclIds);
 }
