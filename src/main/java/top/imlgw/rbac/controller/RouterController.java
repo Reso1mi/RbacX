@@ -11,30 +11,34 @@ import top.imlgw.rbac.validator.NeedLogin;
 @Controller
 public class RouterController {
 
-    @GetMapping("/admin")
+    @GetMapping("/admin.page")
     @NeedLogin
     public String admin(){
         return "admin";
     }
 
-    @GetMapping("/dept")
+    @GetMapping("/dept.page")
     @NeedLogin
     public String dept(){
         return "dept";
     }
 
 
-    @GetMapping("/acl")
+    @GetMapping("/acl.page")
     @NeedLogin
     public String acl(){
         return "acl";
     }
 
 
-    @GetMapping("/role")
+    @GetMapping("/role.page")
     @NeedLogin
     public String role(){
         return "role";
     }
 
+    @GetMapping("/noAuth.page")
+    public String noAuth(){
+        return "noAuth";
+    }
 }

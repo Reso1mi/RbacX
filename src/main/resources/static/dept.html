@@ -372,7 +372,7 @@
 
         function loadDeptTree() {
             $.ajax({
-                url: "/system/dept/tree",
+                url: "/system/dept/tree.page",
                 success: function (result) {
                     if (result.code == 0) {
                         deptList = result.data;

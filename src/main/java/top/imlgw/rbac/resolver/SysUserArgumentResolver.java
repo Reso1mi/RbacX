@@ -1,4 +1,4 @@
-package top.imlgw.rbac.argresolver;
+package top.imlgw.rbac.resolver;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

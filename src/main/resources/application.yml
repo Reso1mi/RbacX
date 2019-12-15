@@ -28,8 +28,10 @@ mail:
   port: 587
 acl:
   exclusionUrls:
-    - /noAuth
-    - /login
+    - /login.page
+    - /user/login
+    - /noAuth.page
+  noAuthUrl:  /noAuth.page
 
 
 

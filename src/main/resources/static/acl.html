@@ -300,7 +300,7 @@
 
         function loadAclModuleTree() {
             $.ajax({
-                url: "/system/aclModule/tree",
+                url: "/system/aclModule/tree.page",
                 success: function (result) {
                     if (result.code == 0) {
                         aclModuleList = result.data;
@@ -466,12 +466,13 @@
                 var aclModuleName = $(this).attr("data-name");
                 if (confirm("确定要删除权限模块[" + aclModuleName + "]吗?")) {
                     $.ajax({
-                        url: "/sys/aclModule/delete.json",
+                        url: "/system/aclModule/delete",
                         data: {
-                            id: aclModuleId
+                            aclModuleId: aclModuleId
                         },
+                        type:'POST',
                         success: function (result) {
-                            if (result.ret) {
+                            if (result.code==0) {
                                 showMessage("删除权限模块[" + aclModuleName + "]", "操作成功", true);
                                 loadAclModuleTree();
                             } else {

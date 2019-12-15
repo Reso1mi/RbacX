@@ -170,4 +170,12 @@
         select <include refid="Base_Column_List"/>
         from sys_acl_module
     </select>
+
+
+    <select id="countChildModule" parameterType="int" resultType="int">
+        select count(*)
+        from sys_acl_module
+        where parent_id=#{aclModuleId}
+    </select>
+
 </mapper>

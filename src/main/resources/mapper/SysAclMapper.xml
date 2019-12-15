@@ -213,7 +213,7 @@
       </foreach>
   </select>
   <select id="getAclListByUrl" resultMap="BaseResultMap">
-      select <include refid="Base_Colume_List"/>
+      select <include refid="Base_Column_List"/>
       from sys_acl
       where url=#{url}
   </select>

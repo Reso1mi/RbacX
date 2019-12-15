@@ -202,10 +202,10 @@ public class SysTreeService {
         HashMap<Integer, List<AclDto>> moduleIdAclMap = new HashMap<>();
         for (AclDto acl : aclDtoList) {
             if (acl.getStatus() == 1) { //正常
-                List<AclDto> dtoList = moduleIdAclMap.get(acl.getId());
+                List<AclDto> dtoList = moduleIdAclMap.get(acl.getAclModuleId()); //fixbug: acl.getId()
                 if (CollectionUtils.isEmpty(dtoList)) {
                     dtoList = new ArrayList<>();
-                    moduleIdAclMap.put(acl.getId(), dtoList);
+                    moduleIdAclMap.put(acl.getAclModuleId(), dtoList);
                 }
                 dtoList.add(acl);
             }

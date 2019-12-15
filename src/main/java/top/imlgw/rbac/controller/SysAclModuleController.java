@@ -43,11 +43,18 @@ public class SysAclModuleController {
     }
 
 
-    @GetMapping("/tree")
+    @GetMapping("/tree.page")
     @NeedLogin
     public Result treeAclModule(){
         List<AclModuleLevelDto> aclModuleTree = sysTreeService.createAclModuleTree();
         return Result.success(aclModuleTree);
+    }
+
+    @PostMapping("/delete")
+    @NeedLogin
+    public Result deleteAclModule(@RequestParam("aclModuleId") Integer aclModuleId){
+        sysAclModuleService.delete(aclModuleId);
+        return Result.success(CodeMsg.SUCCESS);
     }
 
 }

@@ -78,9 +78,6 @@ public class SysCoreService {
      * @return 获取某个用户所分配的权限点
      */
     public List<SysAcl> getAclListByUserId(int userId){
-        if (isSuperAdmin()){ //超级管理员拥有所有权限
-            return sysAclMapper.getAllAcl();
-        }
         List<Integer> roleIds = sysRoleUserMapper.getRoleIdListByUserId(userId);
         if (CollectionUtils.isEmpty(roleIds)){
             return Collections.EMPTY_LIST;
@@ -146,7 +143,8 @@ public class SysCoreService {
         if (CollectionUtils.isEmpty(acls)){ //没有权限点限制该url
             return true;
         }
-        Set<SysAcl> userAclSet = getCurrentUserAclList().stream().collect(Collectors.toSet());
+        //md fix bug
+        Set<Integer> userAclSet = getCurrentUserAclList().stream().map(SysAcl::getId).collect(Collectors.toSet());
         if (CollectionUtils.isEmpty(userAclSet)){
             return false;
         }
@@ -156,7 +154,7 @@ public class SysCoreService {
             if (acl.getStatus()==-1){
                 continue;
             }
-            hasValidAcl=false;
+            hasValidAcl=true; //fix bug
             if (acl.getStatus()!=-1&&userAclSet.contains(acl.getId())){
                 return true;
             }

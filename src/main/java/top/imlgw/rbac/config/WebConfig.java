@@ -6,7 +6,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import top.imlgw.rbac.argresolver.SysUserArgumentResolver;
+import top.imlgw.rbac.resolver.SysUserArgumentResolver;
 import top.imlgw.rbac.interceptor.AclInterceptor;
 import top.imlgw.rbac.interceptor.HttpInterceptor;
 import top.imlgw.rbac.interceptor.LoginIntercept;
@@ -40,13 +40,14 @@ public class WebConfig implements WebMvcConfigurer {
         /*registry.addViewController("/").setViewName("login");
         registry.addViewController("/goodslist").setViewName("goods_list");
         registry.addViewController("/register").setViewName("register");*/
-        registry.addViewController("/login").setViewName("signin");
+        registry.addViewController("/login.page").setViewName("signin");
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(httpInterceptor).addPathPatterns("/**").excludePathPatterns("/login/*");
         registry.addInterceptor(loginIntercept);
+        registry.addInterceptor(aclInterceptor);
     }
 
     @Override

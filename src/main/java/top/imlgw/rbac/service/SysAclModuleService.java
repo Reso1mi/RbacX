@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import top.imlgw.rbac.dao.SysAclMapper;
 import top.imlgw.rbac.dao.SysAclModuleMapper;
 import top.imlgw.rbac.entity.SysAclModule;
 import top.imlgw.rbac.exception.GlobalException;
@@ -25,6 +26,9 @@ public class SysAclModuleService {
 
     @Autowired
     private SysAclModuleMapper sysAclModuleMapper;
+
+    @Autowired
+    private SysAclMapper sysAclMapper;
 
     public void save(AclModuleParam aclModuleParam) {
         if (isExist(aclModuleParam.getParentId(), aclModuleParam.getName(), aclModuleParam.getSeq(), aclModuleParam.getId())) {
@@ -101,5 +105,19 @@ public class SysAclModuleService {
         }
         //和部门一样也是可以直接全量更新的
         sysAclModuleMapper.updateByPrimaryKey(newSysAclModule);
+    }
+
+    public void delete(Integer aclModuleId){
+        SysAclModule sysAclModule = sysAclModuleMapper.selectByPrimaryKey(aclModuleId);
+        if (sysAclModule==null){
+            throw new GlobalException(CodeMsg.ACLMODULE_NOT_EXIST);
+        }
+        if (sysAclModuleMapper.countChildModule(aclModuleId)>0){
+            throw new GlobalException(CodeMsg.ACLMODULE_HAVE_CHILDREN);
+        }
+        if (sysAclMapper.countByModuleId(aclModuleId)>0){
+            throw new GlobalException(CodeMsg.ACLMODULE_HAVE_CHILDREN);
+        }
+        sysAclModuleMapper.deleteByPrimaryKey(aclModuleId);
     }
 }

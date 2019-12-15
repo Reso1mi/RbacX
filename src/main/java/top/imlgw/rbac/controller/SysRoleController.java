@@ -57,7 +57,7 @@ public class SysRoleController {
         return Result.success(CodeMsg.SUCCESS);
     }
 
-    @GetMapping("/list")
+    @GetMapping("/list.page")
     @NeedLogin
     public Result list() {
         return Result.success(sysRoleService.getAll());

@@ -22,6 +22,7 @@ public class CodeMsg {
     //权限模块相关
     public static final CodeMsg ACLMODULE_REPEAT = new CodeMsg(500301,"同一层级下存在相同的权限模块！");
     public static final CodeMsg ACLMODULE_NOT_EXIST = new CodeMsg(500302, "权限模块不存在！");
+    public static final CodeMsg ACLMODULE_HAVE_CHILDREN= new CodeMsg(500303, "权限模块下还存在子模块！无法删除！");
 
     //权限点相关
     public static final CodeMsg ACL_REPEAT = new CodeMsg(500401,"同一权限模块下存在相同的权限点！");

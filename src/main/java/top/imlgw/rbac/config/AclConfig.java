@@ -19,4 +19,6 @@ import java.util.List;
 @ConfigurationProperties(prefix = "acl")
 public class AclConfig {
     private List<String> exclusionUrls;
+
+    private String noAuthUrl;
 }
